@@ -2492,6 +2492,11 @@ function DiscordLib:Window(text)
 				Seperator2.Size = UDim2.new(0, 401, 0, 1)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
+-- CHANGES MADE:
+-- MultiDropdown: Removed tick from selected items.
+-- Dropdown: Highlight selected item, revert previous selection.
+-- No other UI or logic has been changed.
+
 			function ChannelContent:MultiDropdown(text, list, default, callback)
 				local DropFunc = {}
 				local itemcount = 0
