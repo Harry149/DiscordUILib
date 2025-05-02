@@ -2663,40 +2663,42 @@ function DiscordLib:Window(text)
 				end)
 			
 				for i, v in ipairs(list) do
-					itemcount = itemcount + 1
-					framesize = framesize + 25
-					local Item = Instance.new("TextButton")
-					Item.Parent = DropItemHolder
-					Item.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					Item.BackgroundTransparency = 1.000
-					Item.Size = UDim2.new(0, 385, 0, 25)
-					Item.Font = Enum.Font.Gotham
-					Item.Text = (selected[v] and "✔ " or "") .. v
-					Item.TextColor3 = selected[v] and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(212, 212, 212)
-					Item.TextSize = 14.000
-					Item.TextXAlignment = Enum.TextXAlignment.Left
-			
-					Item.MouseButton1Click:Connect(function()
-						selected[v] = not selected[v]
-						Item.Text = (selected[v] and "✔ " or "") .. v
-						Item.TextColor3 = selected[v] and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(212, 212, 212)
-						local current = {}
-						for opt, isSel in pairs(selected) do
-							if isSel then table.insert(current, opt) end
-						end
-						CurrentSelectedText.Text = (#current > 0) and table.concat(current, ", ") or "..."
-						if callback then
-							callback(current)
-						end
-					end)
+				    itemcount = itemcount + 1
+				    framesize = framesize + 25
+				    local Item = Instance.new("TextButton")
+				    Item.Parent = DropItemHolder
+				    Item.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				    Item.BackgroundTransparency = 1.000
+				    Item.Size = UDim2.new(0, 385, 0, 25)
+				    Item.Font = Enum.Font.Gotham
+				    Item.Text = v
+				    Item.TextColor3 = Color3.fromRGB(212, 212, 212)
+				    Item.TextSize = 14.000
+				    Item.TextXAlignment = Enum.TextXAlignment.Left
+				
+				    Item.MouseButton1Click:Connect(function()
+				        selected[v] = not selected[v]
+				        Item.TextColor3 = selected[v] and Color3.fromRGB(114, 137, 228) or Color3.fromRGB(212, 212, 212)
+				        local current = {}
+				        for opt, isSel in pairs(selected) do
+				            if isSel then table.insert(current, opt) end
+				        end
+				        CurrentSelectedText.Text = (#current > 0) and table.concat(current, ", ") or "..."
+				        if callback then
+				            callback(current)
+				        end
+				    end)
 				end
-			
+				
 				DropItemHolder.CanvasSize = UDim2.new(0, 0, 0, framesize)
 				DropItemHolder.Size = UDim2.new(0, 385, 0, framesize)
+				
 				CurrentSelectedText.Text = (next(selected) ~= nil) and table.concat((function()
-					local t = {}
-					for opt, isSel in pairs(selected) do if isSel then table.insert(t, opt) end end
-					return t
+				    local t = {}
+				    for opt, isSel in pairs(selected) do 
+				        if isSel then table.insert(t, opt) end 
+				    end
+				    return t
 				end)(), ", ") or "..."
 			end		
 			function ChannelContent:Dropdown(text, list, callback)
