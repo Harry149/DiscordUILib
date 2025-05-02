@@ -2492,16 +2492,12 @@ function DiscordLib:Window(text)
 				Seperator2.Size = UDim2.new(0, 401, 0, 1)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
-			function ChannelContent:MultiDropdown(text, list, default, callback)
+			function ChannelContent:MultiDropdown(text, list, callback)
 				local DropFunc = {}
 				local itemcount = 0
 				local framesize = 0
 				local DropTog = false
 				local selected = {}
-			
-				for _, v in ipairs(default or {}) do
-					selected[v] = true
-				end
 			
 				local Dropdown = Instance.new("Frame")
 				local DropdownTitle = Instance.new("TextLabel")
