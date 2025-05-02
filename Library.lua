@@ -2497,8 +2497,7 @@ function DiscordLib:Window(text)
 				local itemcount = 0
 				local framesize = 0
 				local DropTog = false
-				local selected = {}
-			
+				local selected = {}			
 				local Dropdown = Instance.new("Frame")
 				local DropdownTitle = Instance.new("TextLabel")
 				local DropdownFrameOutline = Instance.new("Frame")
@@ -2696,7 +2695,7 @@ function DiscordLib:Window(text)
 				    end
 				    return t
 				end)(), ", ") or "..."
-			end		
+			end				
 			function ChannelContent:Dropdown(text, list, callback)
 				local DropFunc = {}
 				local lastSelectedItem = nil
