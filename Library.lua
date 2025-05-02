@@ -2493,586 +2493,547 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
 			function ChannelContent:MultiDropdown(text, list, default, callback)
-			    local DropFunc = {}
-			    local itemcount = 0
-			    local framesize = 0
-			    local DropTog = false
-			    local selected = {}
+				local DropFunc = {}
+				local itemcount = 0
+				local framesize = 0
+				local DropTog = false
+				local selected = {}
 			
-			    for _, v in ipairs(default or {}) do
-			        selected[v] = true
-			    end
+				for _, v in ipairs(default or {}) do
+					selected[v] = true
+				end
 			
-			    local Dropdown = Instance.new("Frame")
-			    local DropdownTitle = Instance.new("TextLabel")
-			    local DropdownFrameOutline = Instance.new("Frame")
-			    local DropdownFrameOutlineCorner = Instance.new("UICorner")
-			    local DropdownFrame = Instance.new("Frame")
-			    local DropdownFrameCorner = Instance.new("UICorner")
-			    local CurrentSelectedText = Instance.new("TextLabel")
-			    local ArrowImg = Instance.new("ImageLabel")
-			    local DropdownFrameBtn = Instance.new("TextButton")
+				local Dropdown = Instance.new("Frame")
+				local DropdownTitle = Instance.new("TextLabel")
+				local DropdownFrameOutline = Instance.new("Frame")
+				local DropdownFrameOutlineCorner = Instance.new("UICorner")
+				local DropdownFrame = Instance.new("Frame")
+				local DropdownFrameCorner = Instance.new("UICorner")
+				local CurrentSelectedText = Instance.new("TextLabel")
+				local ArrowImg = Instance.new("ImageLabel")
+				local DropdownFrameBtn = Instance.new("TextButton")
 			
-			    Dropdown.Name = "Dropdown"
-			    Dropdown.Parent = ChannelHolder
-			    Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    Dropdown.BackgroundTransparency = 1.000
-			    Dropdown.Position = UDim2.new(0.0796874985, 0, 0.445175439, 0)
-			    Dropdown.Size = UDim2.new(0, 403, 0, 73)
+				Dropdown.Name = "Dropdown"
+				Dropdown.Parent = ChannelHolder
+				Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Dropdown.BackgroundTransparency = 1.000
+				Dropdown.Position = UDim2.new(0.0796874985, 0, 0.445175439, 0)  -- spacing matched
+				Dropdown.Size = UDim2.new(0, 403, 0, 73)
 			
-			    DropdownTitle.Name = "DropdownTitle"
-			    DropdownTitle.Parent = Dropdown
-			    DropdownTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    DropdownTitle.BackgroundTransparency = 1.000
-			    DropdownTitle.Position = UDim2.new(0, 5, 0, 0)
-			    DropdownTitle.Size = UDim2.new(0, 200, 0, 29)
-			    DropdownTitle.Font = Enum.Font.Gotham
-			    DropdownTitle.Text = text
-			    DropdownTitle.TextColor3 = Color3.fromRGB(127, 131, 137)
-			    DropdownTitle.TextSize = 14.000
-			    DropdownTitle.TextXAlignment = Enum.TextXAlignment.Left
+				DropdownTitle.Name = "DropdownTitle"
+				DropdownTitle.Parent = Dropdown
+				DropdownTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropdownTitle.BackgroundTransparency = 1.000
+				DropdownTitle.Position = UDim2.new(0, 5, 0, 0)
+				DropdownTitle.Size = UDim2.new(0, 200, 0, 29)
+				DropdownTitle.Font = Enum.Font.Gotham
+				DropdownTitle.Text = text
+				DropdownTitle.TextColor3 = Color3.fromRGB(127, 131, 137)
+				DropdownTitle.TextSize = 14.000
+				DropdownTitle.TextXAlignment = Enum.TextXAlignment.Left
 			
-			    DropdownFrameOutline.Name = "DropdownFrameOutline"
-			    DropdownFrameOutline.Parent = DropdownTitle
-			    DropdownFrameOutline.AnchorPoint = Vector2.new(0.5, 0.5)
-			    DropdownFrameOutline.BackgroundColor3 = Color3.fromRGB(37, 40, 43)
-			    DropdownFrameOutline.Position = UDim2.new(0.988442957, 0, 1.6197437, 0)
-			    DropdownFrameOutline.Size = UDim2.new(0, 396, 0, 36)
+				DropdownFrameOutline.Name = "DropdownFrameOutline"
+				DropdownFrameOutline.Parent = DropdownTitle
+				DropdownFrameOutline.AnchorPoint = Vector2.new(0.5, 0.5)
+				DropdownFrameOutline.BackgroundColor3 = Color3.fromRGB(37, 40, 43)
+				DropdownFrameOutline.Position = UDim2.new(0.988442957, 0, 1.6197437, 0)
+				DropdownFrameOutline.Size = UDim2.new(0, 396, 0, 36)
 			
-			    DropdownFrameOutlineCorner.CornerRadius = UDim.new(0, 3)
-			    DropdownFrameOutlineCorner.Name = "DropdownFrameOutlineCorner"
-			    DropdownFrameOutlineCorner.Parent = DropdownFrameOutline
+				DropdownFrameOutlineCorner.CornerRadius = UDim.new(0, 3)
+				DropdownFrameOutlineCorner.Name = "DropdownFrameOutlineCorner"
+				DropdownFrameOutlineCorner.Parent = DropdownFrameOutline
 			
-			    DropdownFrame.Name = "DropdownFrame"
-			    DropdownFrame.Parent = DropdownTitle
-			    DropdownFrame.BackgroundColor3 = Color3.fromRGB(48, 51, 57)
-			    DropdownFrame.ClipsDescendants = true
-			    DropdownFrame.Position = UDim2.new(0.00999999978, 0, 1.06638527, 0)
-			    DropdownFrame.Selectable = true
-			    DropdownFrame.Size = UDim2.new(0, 392, 0, 32)
+				DropdownFrame.Name = "DropdownFrame"
+				DropdownFrame.Parent = DropdownTitle
+				DropdownFrame.BackgroundColor3 = Color3.fromRGB(48, 51, 57)
+				DropdownFrame.ClipsDescendants = true
+				DropdownFrame.Position = UDim2.new(0.00999999978, 0, 1.06638527, 0)
+				DropdownFrame.Selectable = true
+				DropdownFrame.Size = UDim2.new(0, 392, 0, 32)
 			
-			    DropdownFrameCorner.CornerRadius = UDim.new(0, 3)
-			    DropdownFrameCorner.Name = "DropdownFrameCorner"
-			    DropdownFrameCorner.Parent = DropdownFrame
+				DropdownFrameCorner.CornerRadius = UDim.new(0, 3)
+				DropdownFrameCorner.Name = "DropdownFrameCorner"
+				DropdownFrameCorner.Parent = DropdownFrame
 			
-			    CurrentSelectedText.Name = "CurrentSelectedText"
-			    CurrentSelectedText.Parent = DropdownFrame
-			    CurrentSelectedText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    CurrentSelectedText.BackgroundTransparency = 1.000
-			    CurrentSelectedText.Position = UDim2.new(0.0178571437, 0, 0, 0)
-			    CurrentSelectedText.Size = UDim2.new(0, 193, 0, 32)
-			    CurrentSelectedText.Font = Enum.Font.Gotham
-			    CurrentSelectedText.Text = "..."
-			    CurrentSelectedText.TextColor3 = Color3.fromRGB(212, 212, 212)
-			    CurrentSelectedText.TextSize = 14.000
-			    CurrentSelectedText.TextXAlignment = Enum.TextXAlignment.Left
+				CurrentSelectedText.Name = "CurrentSelectedText"
+				CurrentSelectedText.Parent = DropdownFrame
+				CurrentSelectedText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				CurrentSelectedText.BackgroundTransparency = 1.000
+				CurrentSelectedText.Position = UDim2.new(0.0178571437, 0, 0, 0)
+				CurrentSelectedText.Size = UDim2.new(0, 193, 0, 32)
+				CurrentSelectedText.Font = Enum.Font.Gotham
+				CurrentSelectedText.Text = "..."
+				CurrentSelectedText.TextColor3 = Color3.fromRGB(212, 212, 212)
+				CurrentSelectedText.TextSize = 14.000
+				CurrentSelectedText.TextXAlignment = Enum.TextXAlignment.Left
 			
-			    ArrowImg.Name = "ArrowImg"
-			    ArrowImg.Parent = CurrentSelectedText
-			    ArrowImg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    ArrowImg.BackgroundTransparency = 1.000
-			    ArrowImg.Position = UDim2.new(1.84974098, 0, 0.167428851, 0)
-			    ArrowImg.Size = UDim2.new(0, 22, 0, 22)
-			    ArrowImg.Image = "http://www.roblox.com/asset/?id=6034818372"
-			    ArrowImg.ImageColor3 = Color3.fromRGB(212, 212, 212)
+				ArrowImg.Name = "ArrowImg"
+				ArrowImg.Parent = CurrentSelectedText
+				ArrowImg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				ArrowImg.BackgroundTransparency = 1.000
+				ArrowImg.Position = UDim2.new(1.84974098, 0, 0.167428851, 0)
+				ArrowImg.Size = UDim2.new(0, 22, 0, 22)
+				ArrowImg.Image = "http://www.roblox.com/asset/?id=6034818372"
+				ArrowImg.ImageColor3 = Color3.fromRGB(212, 212, 212)
 			
-			    DropdownFrameBtn.Name = "DropdownFrameBtn"
-			    DropdownFrameBtn.Parent = DropdownFrame
-			    DropdownFrameBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    DropdownFrameBtn.BackgroundTransparency = 1.000
-			    DropdownFrameBtn.Size = UDim2.new(0, 392, 0, 32)
-			    DropdownFrameBtn.Font = Enum.Font.SourceSans
-			    DropdownFrameBtn.Text = ""
-			    DropdownFrameBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-			    DropdownFrameBtn.TextSize = 14.000
+				DropdownFrameBtn.Name = "DropdownFrameBtn"
+				DropdownFrameBtn.Parent = DropdownFrame
+				DropdownFrameBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropdownFrameBtn.BackgroundTransparency = 1.000
+				DropdownFrameBtn.Size = UDim2.new(0, 392, 0, 32)
+				DropdownFrameBtn.Font = Enum.Font.SourceSans
+				DropdownFrameBtn.Text = ""
+				DropdownFrameBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+				DropdownFrameBtn.TextSize = 14.000
 			
-			    local DropdownFrameMainOutline = Instance.new("Frame")
-			    local DropdownFrameMainOutlineCorner = Instance.new("UICorner")
-			    local DropdownFrameMain = Instance.new("Frame")
-			    local DropdownFrameMainCorner = Instance.new("UICorner")
-			    local DropItemHolderLabel = Instance.new("TextLabel")
-			    local DropItemHolder = Instance.new("ScrollingFrame")
-			    local DropItemHolderLayout = Instance.new("UIListLayout")
+				local DropdownFrameMainOutline = Instance.new("Frame")
+				local DropdownFrameMainOutlineCorner = Instance.new("UICorner")
+				local DropdownFrameMain = Instance.new("Frame")
+				local DropdownFrameMainCorner = Instance.new("UICorner")
+				local DropItemHolderLabel = Instance.new("TextLabel")
+				local DropItemHolder = Instance.new("ScrollingFrame")
+				local DropItemHolderLayout = Instance.new("UIListLayout")
 			
-			    DropdownFrameMainOutline.Name = "DropdownFrameMainOutline"
-			    DropdownFrameMainOutline.Parent = DropdownTitle
-			    DropdownFrameMainOutline.BackgroundColor3 = Color3.fromRGB(37, 40, 43)
-			    DropdownFrameMainOutline.Position = UDim2.new(-0.00155700743, 0, 2.16983342, 0)
-			    DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, 81)
-			    DropdownFrameMainOutline.Visible = false
+				DropdownFrameMainOutline.Name = "DropdownFrameMainOutline"
+				DropdownFrameMainOutline.Parent = DropdownTitle
+				DropdownFrameMainOutline.BackgroundColor3 = Color3.fromRGB(37, 40, 43)
+				DropdownFrameMainOutline.Position = UDim2.new(-0.00155700743, 0, 2.16983342, 0)
+				DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, 81)
+				DropdownFrameMainOutline.Visible = false
 			
-			    DropdownFrameMainOutlineCorner.CornerRadius = UDim.new(0, 3)
-			    DropdownFrameMainOutlineCorner.Name = "DropdownFrameMainOutlineCorner"
-			    DropdownFrameMainOutlineCorner.Parent = DropdownFrameMainOutline
+				DropdownFrameMainOutlineCorner.CornerRadius = UDim.new(0, 3)
+				DropdownFrameMainOutlineCorner.Name = "DropdownFrameMainOutlineCorner"
+				DropdownFrameMainOutlineCorner.Parent = DropdownFrameMainOutline
 			
-			    DropdownFrameMain.Name = "DropdownFrameMain"
-			    DropdownFrameMain.Parent = DropdownTitle
-			    DropdownFrameMain.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
-			    DropdownFrameMain.ClipsDescendants = true
-			    DropdownFrameMain.Position = UDim2.new(0.00999999978, 0, 2.2568965, 0)
-			    DropdownFrameMain.Selectable = true
-			    DropdownFrameMain.Size = UDim2.new(0, 392, 0, 77)
-			    DropdownFrameMain.Visible = false
+				DropdownFrameMain.Name = "DropdownFrameMain"
+				DropdownFrameMain.Parent = DropdownTitle
+				DropdownFrameMain.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
+				DropdownFrameMain.ClipsDescendants = true
+				DropdownFrameMain.Position = UDim2.new(0.00999999978, 0, 2.2568965, 0)
+				DropdownFrameMain.Selectable = true
+				DropdownFrameMain.Size = UDim2.new(0, 392, 0, 77)
+				DropdownFrameMain.Visible = false
 			
-			    DropdownFrameMainCorner.CornerRadius = UDim.new(0, 3)
-			    DropdownFrameMainCorner.Name = "DropdownFrameMainCorner"
-			    DropdownFrameMainCorner.Parent = DropdownFrameMain
+				DropdownFrameMainCorner.CornerRadius = UDim.new(0, 3)
+				DropdownFrameMainCorner.Name = "DropdownFrameMainCorner"
+				DropdownFrameMainCorner.Parent = DropdownFrameMain
 			
-			    DropItemHolderLabel.Name = "ItemHolderLabel"
-			    DropItemHolderLabel.Parent = DropdownFrameMain
-			    DropItemHolderLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    DropItemHolderLabel.BackgroundTransparency = 1.000
-			    DropItemHolderLabel.Position = UDim2.new(0.0178571437, 0, 0, 0)
-			    DropItemHolderLabel.Size = UDim2.new(0, 193, 0, 13)
-			    DropItemHolderLabel.Font = Enum.Font.Gotham
-			    DropItemHolderLabel.Text = ""
-			    DropItemHolderLabel.TextColor3 = Color3.fromRGB(212, 212, 212)
-			    DropItemHolderLabel.TextSize = 14.000
-			    DropItemHolderLabel.TextXAlignment = Enum.TextXAlignment.Left
+				DropItemHolderLabel.Name = "ItemHolderLabel"
+				DropItemHolderLabel.Parent = DropdownFrameMain
+				DropItemHolderLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropItemHolderLabel.BackgroundTransparency = 1.000
+				DropItemHolderLabel.Position = UDim2.new(0.0178571437, 0, 0, 0)
+				DropItemHolderLabel.Size = UDim2.new(0, 193, 0, 13)
+				DropItemHolderLabel.Font = Enum.Font.Gotham
+				DropItemHolderLabel.Text = ""
+				DropItemHolderLabel.TextColor3 = Color3.fromRGB(212, 212, 212)
+				DropItemHolderLabel.TextSize = 14.000
+				DropItemHolderLabel.TextXAlignment = Enum.TextXAlignment.Left
 			
-			    DropItemHolder.Name = "ItemHolder"
-			    DropItemHolder.Parent = DropItemHolderLabel
-			    DropItemHolder.Active = true
-			    DropItemHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    DropItemHolder.BackgroundTransparency = 1.000
-			    DropItemHolder.Position = UDim2.new(0, 0, 0.215384638, 0)
-			    DropItemHolder.Size = UDim2.new(0, 385, 0, 0)
-			    DropItemHolder.CanvasSize = UDim2.new(0, 0, 0, 0)
-			    DropItemHolder.ScrollBarThickness = 6
-			    DropItemHolder.BorderSizePixel = 0
-			    DropItemHolder.ScrollBarImageColor3 = Color3.fromRGB(28, 29, 32)
+				DropItemHolder.Name = "ItemHolder"
+				DropItemHolder.Parent = DropItemHolderLabel
+				DropItemHolder.Active = true
+				DropItemHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropItemHolder.BackgroundTransparency = 1.000
+				DropItemHolder.Position = UDim2.new(0, 0, 0.215384638, 0)
+				DropItemHolder.Size = UDim2.new(0, 385, 0, 0)
+				DropItemHolder.CanvasSize = UDim2.new(0, 0, 0, 0)
+				DropItemHolder.ScrollBarThickness = 6
+				DropItemHolder.BorderSizePixel = 0
+				DropItemHolder.ScrollBarImageColor3 = Color3.fromRGB(28, 29, 32)
 			
-			    DropItemHolderLayout.Name = "ItemHolderLayout"
-			    DropItemHolderLayout.Parent = DropItemHolder
-			    DropItemHolderLayout.SortOrder = Enum.SortOrder.LayoutOrder
-			    DropItemHolderLayout.Padding = UDim.new(0, 0)
+				DropItemHolderLayout.Name = "ItemHolderLayout"
+				DropItemHolderLayout.Parent = DropItemHolder
+				DropItemHolderLayout.SortOrder = Enum.SortOrder.LayoutOrder
+				DropItemHolderLayout.Padding = UDim.new(0, 0)
 			
-			    DropdownFrameBtn.MouseButton1Click:Connect(function()
-			        if DropTog == false then
-			            DropdownFrameMain.Visible = true
-			            DropdownFrameMainOutline.Visible = true
-			            Dropdown.Size = UDim2.new(0, 403, 0, 73 + DropdownFrameMainOutline.AbsoluteSize.Y)
-			            ChannelHolder.CanvasSize = UDim2.new(0, 0, 0, ChannelHolderLayout.AbsoluteContentSize.Y)
-			        else
-			            Dropdown.Size = UDim2.new(0, 403, 0, 73)
-			            DropdownFrameMain.Visible = false
-			            DropdownFrameMainOutline.Visible = false
-			            ChannelHolder.CanvasSize = UDim2.new(0, 0, 0, ChannelHolderLayout.AbsoluteContentSize.Y)
-			        end
-			        DropTog = not DropTog
-			    end)
+				DropdownFrameBtn.MouseButton1Click:Connect(function()
+					if DropTog == false then
+						DropdownFrameMain.Visible = true
+						DropdownFrameMainOutline.Visible = true
+						Dropdown.Size = UDim2.new(0, 403, 0, 73 + DropdownFrameMainOutline.AbsoluteSize.Y)
+						ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+					else
+						Dropdown.Size = UDim2.new(0, 403, 0, 73)
+						DropdownFrameMain.Visible = false
+						DropdownFrameMainOutline.Visible = false
+						ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+					end
+					DropTog = not DropTog
+				end)
 			
-			    for i, v in ipairs(list) do
-			        itemcount = itemcount + 1
-			        framesize = framesize + 25
-			        local Item = Instance.new("TextButton")
-			        local ItemCorner = Instance.new("UICorner")
-			        local ItemText = Instance.new("TextLabel")
-			
-			        Item.Name = "Item"
-			        Item.Parent = DropItemHolder
-			        Item.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
-			        Item.Size = UDim2.new(0, 379, 0, 29)
-			        Item.AutoButtonColor = false
-			        Item.Font = Enum.Font.SourceSans
-			        Item.Text = ""
-			        Item.TextColor3 = Color3.fromRGB(0, 0, 0)
-			        Item.TextSize = 14.000
-			        Item.BackgroundTransparency = 1
-			
-			        ItemCorner.CornerRadius = UDim.new(0, 4)
-			        ItemCorner.Name = "ItemCorner"
-			        ItemCorner.Parent = Item
-			
-			        ItemText.Name = "ItemText"
-			        ItemText.Parent = Item
-			        ItemText.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
-			        ItemText.BackgroundTransparency = 1.000
-			        ItemText.Position = UDim2.new(0.0211081803, 0, 0, 0)
-			        ItemText.Size = UDim2.new(0, 192, 0, 29)
-			        ItemText.Font = Enum.Font.Gotham
-			        ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
-			        ItemText.TextSize = 14.000
-			        ItemText.TextXAlignment = Enum.TextXAlignment.Left
-			        ItemText.Text = v  -- Tick removed; using just the option text.
-			        
-			        Item.MouseEnter:Connect(function()
-			            ItemText.TextColor3 = Color3.fromRGB(255, 255, 255)
-			            Item.BackgroundTransparency = 0
-			        end)
-			        
-			        Item.MouseLeave:Connect(function()
-			            ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
-			            Item.BackgroundTransparency = 1
-			        end)
-			        
-			        Item.MouseButton1Click:Connect(function()
-			            selected[v] = not selected[v]
-			            Item.TextColor3 = selected[v] and Color3.fromRGB(114, 137, 228) or Color3.fromRGB(212, 212, 212)
-			            local current = {}
-			            for opt, isSel in pairs(selected) do
-			                if isSel then table.insert(current, opt) end
-			            end
-			            -- Ensure the tick is not added to the text:
-			            ItemText.Text = v
-			            CurrentSelectedText.Text = (#current > 0) and table.concat(current, ", ") or "..."
-			            if callback then
-			                callback(current)
-			            end
-			        end)
-			    end
-			
-			    DropItemHolder.CanvasSize = UDim2.new(0, 0, 0, framesize)
-			    DropItemHolder.Size = UDim2.new(0, 385, 0, framesize)
-			
-			    CurrentSelectedText.Text = (next(selected) ~= nil) and table.concat((function()
-			        local t = {}
-			        for opt, isSel in pairs(selected) do 
-			            if isSel then table.insert(t, opt) end 
-			        end
-			        return t
-			    end)(), ", ") or "..."
-			end        
-			
+				for i, v in ipairs(list) do
+				    itemcount = itemcount + 1
+				    framesize = framesize + 25
+				    local Item = Instance.new("TextButton")
+				    Item.Parent = DropItemHolder
+				    Item.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				    Item.BackgroundTransparency = 1.000
+				    Item.Size = UDim2.new(0, 385, 0, 25)
+				    Item.Font = Enum.Font.Gotham
+				    Item.Text = v
+				    Item.TextColor3 = Color3.fromRGB(212, 212, 212)
+				    Item.TextSize = 14.000
+				    Item.TextXAlignment = Enum.TextXAlignment.Left
+				
+				    Item.MouseButton1Click:Connect(function()
+				        selected[v] = not selected[v]
+				        Item.TextColor3 = selected[v] and Color3.fromRGB(114, 137, 228) or Color3.fromRGB(212, 212, 212)
+				        local current = {}
+				        for opt, isSel in pairs(selected) do
+				            if isSel then table.insert(current, opt) end
+				        end
+				        CurrentSelectedText.Text = (#current > 0) and table.concat(current, ", ") or "..."
+				        if callback then
+				            callback(current)
+				        end
+				    end)
+				end
+				
+				DropItemHolder.CanvasSize = UDim2.new(0, 0, 0, framesize)
+				DropItemHolder.Size = UDim2.new(0, 385, 0, framesize)
+				
+				CurrentSelectedText.Text = (next(selected) ~= nil) and table.concat((function()
+				    local t = {}
+				    for opt, isSel in pairs(selected) do 
+				        if isSel then table.insert(t, opt) end 
+				    end
+				    return t
+				end)(), ", ") or "..."
+			end		
 			function ChannelContent:Dropdown(text, list, callback)
-			    local DropFunc = {}
-			    local itemcount = 0
-			    local framesize = 0
-			    local DropTog = false
-			    local Dropdown = Instance.new("Frame")
-			    local DropdownTitle = Instance.new("TextLabel")
-			    local DropdownFrameOutline = Instance.new("Frame")
-			    local DropdownFrameOutlineCorner = Instance.new("UICorner")
-			    local DropdownFrame = Instance.new("Frame")
-			    local DropdownFrameCorner = Instance.new("UICorner")
-			    local CurrentSelectedText = Instance.new("TextLabel")
-			    local ArrowImg = Instance.new("ImageLabel")
-			    local DropdownFrameBtn = Instance.new("TextButton")
-			
-			    Dropdown.Name = "Dropdown"
-			    Dropdown.Parent = ChannelHolder
-			    Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    Dropdown.BackgroundTransparency = 1.000
-			    Dropdown.Position = UDim2.new(0.0796874985, 0, 0.445175439, 0)
-			    Dropdown.Size = UDim2.new(0, 403, 0, 73)
-			
-			    DropdownTitle.Name = "DropdownTitle"
-			    DropdownTitle.Parent = Dropdown
-			    DropdownTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    DropdownTitle.BackgroundTransparency = 1.000
-			    DropdownTitle.Position = UDim2.new(0, 5, 0, 0)
-			    DropdownTitle.Size = UDim2.new(0, 200, 0, 29)
-			    DropdownTitle.Font = Enum.Font.Gotham
-			    DropdownTitle.Text = text
-			    DropdownTitle.TextColor3 = Color3.fromRGB(127, 131, 137)
-			    DropdownTitle.TextSize = 14.000
-			    DropdownTitle.TextXAlignment = Enum.TextXAlignment.Left
-			
-			    DropdownFrameOutline.Name = "DropdownFrameOutline"
-			    DropdownFrameOutline.Parent = DropdownTitle
-			    DropdownFrameOutline.AnchorPoint = Vector2.new(0.5, 0.5)
-			    DropdownFrameOutline.BackgroundColor3 = Color3.fromRGB(37, 40, 43)
-			    DropdownFrameOutline.Position = UDim2.new(0.988442957, 0, 1.6197437, 0)
-			    DropdownFrameOutline.Size = UDim2.new(0, 396, 0, 36)
-			
-			    DropdownFrameOutlineCorner.CornerRadius = UDim.new(0, 3)
-			    DropdownFrameOutlineCorner.Name = "DropdownFrameOutlineCorner"
-			    DropdownFrameOutlineCorner.Parent = DropdownFrameOutline
-			
-			    DropdownFrame.Name = "DropdownFrame"
-			    DropdownFrame.Parent = DropdownTitle
-			    DropdownFrame.BackgroundColor3 = Color3.fromRGB(48, 51, 57)
-			    DropdownFrame.ClipsDescendants = true
-			    DropdownFrame.Position = UDim2.new(0.00999999978, 0, 1.06638527, 0)
-			    DropdownFrame.Selectable = true
-			    DropdownFrame.Size = UDim2.new(0, 392, 0, 32)
-			
-			    DropdownFrameCorner.CornerRadius = UDim.new(0, 3)
-			    DropdownFrameCorner.Name = "DropdownFrameCorner"
-			    DropdownFrameCorner.Parent = DropdownFrame
-			
-			    CurrentSelectedText.Name = "CurrentSelectedText"
-			    CurrentSelectedText.Parent = DropdownFrame
-			    CurrentSelectedText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    CurrentSelectedText.BackgroundTransparency = 1.000
-			    CurrentSelectedText.Position = UDim2.new(0.0178571437, 0, 0, 0)
-			    CurrentSelectedText.Size = UDim2.new(0, 193, 0, 32)
-			    CurrentSelectedText.Font = Enum.Font.Gotham
-			    CurrentSelectedText.Text = "..."
-			    CurrentSelectedText.TextColor3 = Color3.fromRGB(212, 212, 212)
-			    CurrentSelectedText.TextSize = 14.000
-			    CurrentSelectedText.TextXAlignment = Enum.TextXAlignment.Left
-			
-			    ArrowImg.Name = "ArrowImg"
-			    ArrowImg.Parent = CurrentSelectedText
-			    ArrowImg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    ArrowImg.BackgroundTransparency = 1.000
-			    ArrowImg.Position = UDim2.new(1.84974098, 0, 0.167428851, 0)
-			    ArrowImg.Size = UDim2.new(0, 22, 0, 22)
-			    ArrowImg.Image = "http://www.roblox.com/asset/?id=6034818372"
-			    ArrowImg.ImageColor3 = Color3.fromRGB(212, 212, 212)
-			
-			    DropdownFrameBtn.Name = "DropdownFrameBtn"
-			    DropdownFrameBtn.Parent = DropdownFrame
-			    DropdownFrameBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    DropdownFrameBtn.BackgroundTransparency = 1.000
-			    DropdownFrameBtn.Size = UDim2.new(0, 392, 0, 32)
-			    DropdownFrameBtn.Font = Enum.Font.SourceSans
-			    DropdownFrameBtn.Text = ""
-			    DropdownFrameBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-			    DropdownFrameBtn.TextSize = 14.000
-			
-			    local DropdownFrameMainOutline = Instance.new("Frame")
-			    local DropdownFrameMainOutlineCorner = Instance.new("UICorner")
-			    local DropdownFrameMain = Instance.new("Frame")
-			    local DropdownFrameMainCorner = Instance.new("UICorner")
-			    local DropItemHolderLabel = Instance.new("TextLabel")
-			    local DropItemHolder = Instance.new("ScrollingFrame")
-			    local DropItemHolderLayout = Instance.new("UIListLayout")
-			
-			    DropdownFrameMainOutline.Name = "DropdownFrameMainOutline"
-			    DropdownFrameMainOutline.Parent = DropdownTitle
-			    DropdownFrameMainOutline.BackgroundColor3 = Color3.fromRGB(37, 40, 43)
-			    DropdownFrameMainOutline.Position = UDim2.new(-0.00155700743, 0, 2.16983342, 0)
-			    DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, 81)
-			    DropdownFrameMainOutline.Visible = false
-			
-			    DropdownFrameMainOutlineCorner.CornerRadius = UDim.new(0, 3)
-			    DropdownFrameMainOutlineCorner.Name = "DropdownFrameMainOutlineCorner"
-			    DropdownFrameMainOutlineCorner.Parent = DropdownFrameMainOutline
-			
-			    DropdownFrameMain.Name = "DropdownFrameMain"
-			    DropdownFrameMain.Parent = DropdownTitle
-			    DropdownFrameMain.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
-			    DropdownFrameMain.ClipsDescendants = true
-			    DropdownFrameMain.Position = UDim2.new(0.00999999978, 0, 2.2568965, 0)
-			    DropdownFrameMain.Selectable = true
-			    DropdownFrameMain.Size = UDim2.new(0, 392, 0, 77)
-			    DropdownFrameMain.Visible = false
-			
-			    DropdownFrameMainCorner.CornerRadius = UDim.new(0, 3)
-			    DropdownFrameMainCorner.Name = "DropdownFrameMainCorner"
-			    DropdownFrameMainCorner.Parent = DropdownFrameMain
-			
-			    DropItemHolderLabel.Name = "ItemHolderLabel"
-			    DropItemHolderLabel.Parent = DropdownFrameMain
-			    DropItemHolderLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    DropItemHolderLabel.BackgroundTransparency = 1.000
-			    DropItemHolderLabel.Position = UDim2.new(0.0178571437, 0, 0, 0)
-			    DropItemHolderLabel.Size = UDim2.new(0, 193, 0, 13)
-			    DropItemHolderLabel.Font = Enum.Font.Gotham
-			    DropItemHolderLabel.Text = ""
-			    DropItemHolderLabel.TextColor3 = Color3.fromRGB(212, 212, 212)
-			    DropItemHolderLabel.TextSize = 14.000
-			    DropItemHolderLabel.TextXAlignment = Enum.TextXAlignment.Left
-			
-			    DropItemHolder.Name = "ItemHolder"
-			    DropItemHolder.Parent = DropItemHolderLabel
-			    DropItemHolder.Active = true
-			    DropItemHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			    DropItemHolder.BackgroundTransparency = 1.000
-			    DropItemHolder.Position = UDim2.new(0, 0, 0.215384638, 0)
-			    DropItemHolder.Size = UDim2.new(0, 385, 0, 0)
-			    DropItemHolder.CanvasSize = UDim2.new(0, 0, 0, 0)
-			    DropItemHolder.ScrollBarThickness = 6
-			    DropItemHolder.BorderSizePixel = 0
-			    DropItemHolder.ScrollBarImageColor3 = Color3.fromRGB(28, 29, 32)
-			
-			    DropItemHolderLayout.Name = "ItemHolderLayout"
-			    DropItemHolderLayout.Parent = DropItemHolder
-			    DropItemHolderLayout.SortOrder = Enum.SortOrder.LayoutOrder
-			    DropItemHolderLayout.Padding = UDim.new(0, 0)
-			    
-			    DropdownFrameBtn.MouseButton1Click:Connect(function()
-			        if DropTog == false then
-			            DropdownFrameMain.Visible = true
-			            DropdownFrameMainOutline.Visible = true
-			            Dropdown.Size = UDim2.new(0, 403, 0, 73 + DropdownFrameMainOutline.AbsoluteSize.Y)
-			            ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
-			            
-			        else
-			            Dropdown.Size = UDim2.new(0, 403, 0, 73)
-			            DropdownFrameMain.Visible = false
-			            DropdownFrameMainOutline.Visible = false
-			            ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
-			        end
-			        DropTog = not DropTog
-			    end)
-			    
-			    -- Used to track the last selected item so the highlight can be reverted.
-			    local lastSelectedItem = nil
-			    
-			    for i, v in next, list do
-			        itemcount = itemcount + 1
-			        
-			        if itemcount == 1 then
-			            framesize = 29
-			        elseif itemcount == 2 then
-			            framesize = 58
-			        elseif itemcount >= 3 then
-			            framesize = 87
-			        end
-			        
-			        local Item = Instance.new("TextButton")
-			        local ItemCorner = Instance.new("UICorner")
-			        local ItemText = Instance.new("TextLabel")
-			
-			        Item.Name = "Item"
-			        Item.Parent = DropItemHolder
-			        Item.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
-			        Item.Size = UDim2.new(0, 379, 0, 29)
-			        Item.AutoButtonColor = false
-			        Item.Font = Enum.Font.SourceSans
-			        Item.Text = ""
-			        Item.TextColor3 = Color3.fromRGB(0, 0, 0)
-			        Item.TextSize = 14.000
-			        Item.BackgroundTransparency = 1
-			
-			        ItemCorner.CornerRadius = UDim.new(0, 4)
-			        ItemCorner.Name = "ItemCorner"
-			        ItemCorner.Parent = Item
-			
-			        ItemText.Name = "ItemText"
-			        ItemText.Parent = Item
-			        ItemText.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
-			        ItemText.BackgroundTransparency = 1.000
-			        ItemText.Position = UDim2.new(0.0211081803, 0, 0, 0)
-			        ItemText.Size = UDim2.new(0, 192, 0, 29)
-			        ItemText.Font = Enum.Font.Gotham
-			        ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
-			        ItemText.TextSize = 14.000
-			        ItemText.TextXAlignment = Enum.TextXAlignment.Left
-			        ItemText.Text = v
-			        
-			        Item.MouseEnter:Connect(function()
-			            ItemText.TextColor3 = Color3.fromRGB(255,255,255)
-			            Item.BackgroundTransparency = 0
-			        end)
-			        
-			        Item.MouseLeave:Connect(function()
-			            ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
-			            Item.BackgroundTransparency = 1
-			        end)
-			        
-			        Item.MouseButton1Click:Connect(function()
-			            -- Revert the previous item's highlight if there is one.
-			            if lastSelectedItem and lastSelectedItem ~= Item then
-			                lastSelectedItem.BackgroundTransparency = 1
-			            end
-			
-			            CurrentSelectedText.Text = v
-			            pcall(callback, v)
-			            Dropdown.Size = UDim2.new(0, 403, 0, 73)
-			            DropdownFrameMain.Visible = false
-			            DropdownFrameMainOutline.Visible = false
-			            ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
-			            DropTog = not DropTog
-			            
-			            -- Highlight the selected item.
-			            Item.BackgroundTransparency = 0
-			            lastSelectedItem = Item
-			        end)
-			        
-			        DropItemHolder.CanvasSize = UDim2.new(0,0,0,DropItemHolderLayout.AbsoluteContentSize.Y)
-			        
-			        DropItemHolder.Size = UDim2.new(0, 385, 0, framesize)
-			        DropdownFrameMain.Size = UDim2.new(0, 392, 0, framesize + 6)
-			        DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, framesize + 10)
-			    end
-			    
-			    ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
-			    
-			    function DropFunc:Clear()
-			        for i,v in next, DropItemHolder:GetChildren() do
-			            if v.Name == "Item" then
-			                v:Destroy()
-			            end
-			        end						
-			        
-			        CurrentSelectedText.Text = "..."
-			        
-			        itemcount = 0
-			        framesize = 0
-			        DropItemHolder.Size = UDim2.new(0, 385, 0, 0)
-			        DropdownFrameMain.Size = UDim2.new(0, 392, 0, 0)
-			        DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, 0)
-			        Dropdown.Size = UDim2.new(0, 403, 0, 73)
-			        DropdownFrameMain.Visible = false
-			        DropdownFrameMainOutline.Visible = false
-			        ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
-			    end
-			    
-			    function DropFunc:Add(textadd)
-			        itemcount = itemcount + 1
-			
-			        if itemcount == 1 then
-			            framesize = 29
-			        elseif itemcount == 2 then
-			            framesize = 58
-			        elseif itemcount >= 3 then
-			            framesize = 87
-			        end
-			
-			        local Item = Instance.new("TextButton")
-			        local ItemCorner = Instance.new("UICorner")
-			        local ItemText = Instance.new("TextLabel")
-			
-			        Item.Name = "Item"
-			        Item.Parent = DropItemHolder
-			        Item.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
-			        Item.Size = UDim2.new(0, 379, 0, 29)
-			        Item.AutoButtonColor = false
-			        Item.Font = Enum.Font.SourceSans
-			        Item.Text = ""
-			        Item.TextColor3 = Color3.fromRGB(0, 0, 0)
-			        Item.TextSize = 14.000
-			        Item.BackgroundTransparency = 1
-			
-			        ItemCorner.CornerRadius = UDim.new(0, 4)
-			        ItemCorner.Name = "ItemCorner"
-			        ItemCorner.Parent = Item
-			
-			        ItemText.Name = "ItemText"
-			        ItemText.Parent = Item
-			        ItemText.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
-			        ItemText.BackgroundTransparency = 1.000
-			        ItemText.Position = UDim2.new(0.0211081803, 0, 0, 0)
-			        ItemText.Size = UDim2.new(0, 192, 0, 29)
-			        ItemText.Font = Enum.Font.Gotham
-			        ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
-			        ItemText.TextSize = 14.000
-			        ItemText.TextXAlignment = Enum.TextXAlignment.Left
-			        ItemText.Text = textadd
-			
-			        Item.MouseEnter:Connect(function()
-			            ItemText.TextColor3 = Color3.fromRGB(255,255,255)
-			            Item.BackgroundTransparency = 0
-			        end)
-			
-			        Item.MouseLeave:Connect(function()
-			            ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
-			            Item.BackgroundTransparency = 1
-			        end)
-			
-			        Item.MouseButton1Click:Connect(function()
-			            CurrentSelectedText.Text = textadd
-			            pcall(callback, textadd)
-			            Dropdown.Size = UDim2.new(0, 403, 0, 73)
-			            DropdownFrameMain.Visible = false
-			            DropdownFrameMainOutline.Visible = false
-			            ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
-			            DropTog = not DropTog
-			        end)
-			
-			        DropItemHolder.CanvasSize = UDim2.new(0,0,0,DropItemHolderLayout.AbsoluteContentSize.Y)
-			
-			        DropItemHolder.Size = UDim2.new(0, 385, 0, framesize)
-			        DropdownFrameMain.Size = UDim2.new(0, 392, 0, framesize + 6)
-			        DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, framesize + 10)
-			    end
-			    return DropFunc
-			end
+				local DropFunc = {}
+				local lastSelectedItem = nil
+				local itemcount = 0
+				local framesize = 0
+				local DropTog = false
+				local Dropdown = Instance.new("Frame")
+				local DropdownTitle = Instance.new("TextLabel")
+				local DropdownFrameOutline = Instance.new("Frame")
+				local DropdownFrameOutlineCorner = Instance.new("UICorner")
+				local DropdownFrame = Instance.new("Frame")
+				local DropdownFrameCorner = Instance.new("UICorner")
+				local CurrentSelectedText = Instance.new("TextLabel")
+				local ArrowImg = Instance.new("ImageLabel")
+				local DropdownFrameBtn = Instance.new("TextButton")
 
+				Dropdown.Name = "Dropdown"
+				Dropdown.Parent = ChannelHolder
+				Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Dropdown.BackgroundTransparency = 1.000
+				Dropdown.Position = UDim2.new(0.0796874985, 0, 0.445175439, 0)  -- spacing matched
+				Dropdown.Size = UDim2.new(0, 403, 0, 73)
+
+				DropdownTitle.Name = "DropdownTitle"
+				DropdownTitle.Parent = Dropdown
+				DropdownTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropdownTitle.BackgroundTransparency = 1.000
+				DropdownTitle.Position = UDim2.new(0, 5, 0, 0)
+				DropdownTitle.Size = UDim2.new(0, 200, 0, 29)
+				DropdownTitle.Font = Enum.Font.Gotham
+				DropdownTitle.Text = text
+				DropdownTitle.TextColor3 = Color3.fromRGB(127, 131, 137)
+				DropdownTitle.TextSize = 14.000
+				DropdownTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+				DropdownFrameOutline.Name = "DropdownFrameOutline"
+				DropdownFrameOutline.Parent = DropdownTitle
+				DropdownFrameOutline.AnchorPoint = Vector2.new(0.5, 0.5)
+				DropdownFrameOutline.BackgroundColor3 = Color3.fromRGB(37, 40, 43)
+				DropdownFrameOutline.Position = UDim2.new(0.988442957, 0, 1.6197437, 0)
+				DropdownFrameOutline.Size = UDim2.new(0, 396, 0, 36)
+
+				DropdownFrameOutlineCorner.CornerRadius = UDim.new(0, 3)
+				DropdownFrameOutlineCorner.Name = "DropdownFrameOutlineCorner"
+				DropdownFrameOutlineCorner.Parent = DropdownFrameOutline
+
+				DropdownFrame.Name = "DropdownFrame"
+				DropdownFrame.Parent = DropdownTitle
+				DropdownFrame.BackgroundColor3 = Color3.fromRGB(48, 51, 57)
+				DropdownFrame.ClipsDescendants = true
+				DropdownFrame.Position = UDim2.new(0.00999999978, 0, 1.06638527, 0)
+				DropdownFrame.Selectable = true
+				DropdownFrame.Size = UDim2.new(0, 392, 0, 32)
+
+				DropdownFrameCorner.CornerRadius = UDim.new(0, 3)
+				DropdownFrameCorner.Name = "DropdownFrameCorner"
+				DropdownFrameCorner.Parent = DropdownFrame
+
+				CurrentSelectedText.Name = "CurrentSelectedText"
+				CurrentSelectedText.Parent = DropdownFrame
+				CurrentSelectedText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				CurrentSelectedText.BackgroundTransparency = 1.000
+				CurrentSelectedText.Position = UDim2.new(0.0178571437, 0, 0, 0)
+				CurrentSelectedText.Size = UDim2.new(0, 193, 0, 32)
+				CurrentSelectedText.Font = Enum.Font.Gotham
+				CurrentSelectedText.Text = "..."
+				CurrentSelectedText.TextColor3 = Color3.fromRGB(212, 212, 212)
+				CurrentSelectedText.TextSize = 14.000
+				CurrentSelectedText.TextXAlignment = Enum.TextXAlignment.Left
+
+				ArrowImg.Name = "ArrowImg"
+				ArrowImg.Parent = CurrentSelectedText
+				ArrowImg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				ArrowImg.BackgroundTransparency = 1.000
+				ArrowImg.Position = UDim2.new(1.84974098, 0, 0.167428851, 0)
+				ArrowImg.Size = UDim2.new(0, 22, 0, 22)
+				ArrowImg.Image = "http://www.roblox.com/asset/?id=6034818372"
+				ArrowImg.ImageColor3 = Color3.fromRGB(212, 212, 212)
+
+				DropdownFrameBtn.Name = "DropdownFrameBtn"
+				DropdownFrameBtn.Parent = DropdownFrame
+				DropdownFrameBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropdownFrameBtn.BackgroundTransparency = 1.000
+				DropdownFrameBtn.Size = UDim2.new(0, 392, 0, 32)
+				DropdownFrameBtn.Font = Enum.Font.SourceSans
+				DropdownFrameBtn.Text = ""
+				DropdownFrameBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+				DropdownFrameBtn.TextSize = 14.000
+
+				local DropdownFrameMainOutline = Instance.new("Frame")
+				local DropdownFrameMainOutlineCorner = Instance.new("UICorner")
+				local DropdownFrameMain = Instance.new("Frame")
+				local DropdownFrameMainCorner = Instance.new("UICorner")
+				local DropItemHolderLabel = Instance.new("TextLabel")
+				local DropItemHolder = Instance.new("ScrollingFrame")
+				local DropItemHolderLayout = Instance.new("UIListLayout")
+
+				DropdownFrameMainOutline.Name = "DropdownFrameMainOutline"
+				DropdownFrameMainOutline.Parent = DropdownTitle
+				DropdownFrameMainOutline.BackgroundColor3 = Color3.fromRGB(37, 40, 43)
+				DropdownFrameMainOutline.Position = UDim2.new(-0.00155700743, 0, 2.16983342, 0)
+				DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, 81)
+				DropdownFrameMainOutline.Visible = false
+
+				DropdownFrameMainOutlineCorner.CornerRadius = UDim.new(0, 3)
+				DropdownFrameMainOutlineCorner.Name = "DropdownFrameMainOutlineCorner"
+				DropdownFrameMainOutlineCorner.Parent = DropdownFrameMainOutline
+
+				DropdownFrameMain.Name = "DropdownFrameMain"
+				DropdownFrameMain.Parent = DropdownTitle
+				DropdownFrameMain.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
+				DropdownFrameMain.ClipsDescendants = true
+				DropdownFrameMain.Position = UDim2.new(0.00999999978, 0, 2.2568965, 0)
+				DropdownFrameMain.Selectable = true
+				DropdownFrameMain.Size = UDim2.new(0, 392, 0, 77)
+				DropdownFrameMain.Visible = false
+
+				DropdownFrameMainCorner.CornerRadius = UDim.new(0, 3)
+				DropdownFrameMainCorner.Name = "DropdownFrameMainCorner"
+				DropdownFrameMainCorner.Parent = DropdownFrameMain
+
+				DropItemHolderLabel.Name = "ItemHolderLabel"
+				DropItemHolderLabel.Parent = DropdownFrameMain
+				DropItemHolderLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropItemHolderLabel.BackgroundTransparency = 1.000
+				DropItemHolderLabel.Position = UDim2.new(0.0178571437, 0, 0, 0)
+				DropItemHolderLabel.Size = UDim2.new(0, 193, 0, 13)
+				DropItemHolderLabel.Font = Enum.Font.Gotham
+				DropItemHolderLabel.Text = ""
+				DropItemHolderLabel.TextColor3 = Color3.fromRGB(212, 212, 212)
+				DropItemHolderLabel.TextSize = 14.000
+				DropItemHolderLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+				DropItemHolder.Name = "ItemHolder"
+				DropItemHolder.Parent = DropItemHolderLabel
+				DropItemHolder.Active = true
+				DropItemHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropItemHolder.BackgroundTransparency = 1.000
+				DropItemHolder.Position = UDim2.new(0, 0, 0.215384638, 0)
+				DropItemHolder.Size = UDim2.new(0, 385, 0, 0)
+				DropItemHolder.CanvasSize = UDim2.new(0, 0, 0, 0)
+				DropItemHolder.ScrollBarThickness = 6
+				DropItemHolder.BorderSizePixel = 0
+				DropItemHolder.ScrollBarImageColor3 = Color3.fromRGB(28, 29, 32)
+
+				DropItemHolderLayout.Name = "ItemHolderLayout"
+				DropItemHolderLayout.Parent = DropItemHolder
+				DropItemHolderLayout.SortOrder = Enum.SortOrder.LayoutOrder
+				DropItemHolderLayout.Padding = UDim.new(0, 0)
+				
+				DropdownFrameBtn.MouseButton1Click:Connect(function()
+					if DropTog == false then
+						DropdownFrameMain.Visible = true
+						DropdownFrameMainOutline.Visible = true
+						Dropdown.Size = UDim2.new(0, 403, 0, 73 + DropdownFrameMainOutline.AbsoluteSize.Y)
+						ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+						
+					else
+						Dropdown.Size = UDim2.new(0, 403, 0, 73)
+						DropdownFrameMain.Visible = false
+						DropdownFrameMainOutline.Visible = false
+						ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+					end
+					DropTog = not DropTog
+				end)
+				
+				
+				for i,v in next, list do
+					itemcount = itemcount + 1
+					
+					if itemcount == 1 then
+						framesize = 29
+					elseif itemcount == 2 then
+						framesize = 58
+					elseif itemcount >= 3 then
+						framesize = 87
+					end
+					
+					local Item = Instance.new("TextButton")
+					local ItemCorner = Instance.new("UICorner")
+					local ItemText = Instance.new("TextLabel")
+
+					Item.Name = "Item"
+					Item.Parent = DropItemHolder
+					Item.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
+					Item.Size = UDim2.new(0, 379, 0, 29)
+					Item.AutoButtonColor = false
+					Item.Font = Enum.Font.SourceSans
+					Item.Text = ""
+					Item.TextColor3 = Color3.fromRGB(0, 0, 0)
+					Item.TextSize = 14.000
+					Item.BackgroundTransparency = 1
+
+					ItemCorner.CornerRadius = UDim.new(0, 4)
+					ItemCorner.Name = "ItemCorner"
+					ItemCorner.Parent = Item
+
+					ItemText.Name = "ItemText"
+					ItemText.Parent = Item
+					ItemText.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
+					ItemText.BackgroundTransparency = 1.000
+					ItemText.Position = UDim2.new(0.0211081803, 0, 0, 0)
+					ItemText.Size = UDim2.new(0, 192, 0, 29)
+					ItemText.Font = Enum.Font.Gotham
+					ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
+					ItemText.TextSize = 14.000
+					ItemText.TextXAlignment = Enum.TextXAlignment.Left
+					ItemText.Text = v
+					
+					Item.MouseEnter:Connect(function()
+						ItemText.TextColor3 = Color3.fromRGB(255,255,255)
+						Item.BackgroundTransparency = 0
+					end)
+					
+					Item.MouseLeave:Connect(function()
+						ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
+						Item.BackgroundTransparency = 1
+					end)
+					
+					Item.MouseButton1Click:Connect(function()
+						if lastSelectedItem and lastSelectedItem ~= Item then
+							lastSelectedItem.BackgroundTransparency = 1
+						end
+						Item.BackgroundTransparency = 0
+						lastSelectedItem = Item
+						CurrentSelectedText.Text = v
+						pcall(callback, v)
+						Dropdown.Size = UDim2.new(0, 403, 0, 73)
+						DropdownFrameMain.Visible = false
+						DropdownFrameMainOutline.Visible = false
+						ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+						DropTog = not DropTog
+					end)
+					
+					DropItemHolder.CanvasSize = UDim2.new(0,0,0,DropItemHolderLayout.AbsoluteContentSize.Y)
+					
+					DropItemHolder.Size = UDim2.new(0, 385, 0, framesize)
+					DropdownFrameMain.Size = UDim2.new(0, 392, 0, framesize + 6)
+					DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, framesize + 10)
+				end
+				
+				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+				
+				function DropFunc:Clear()
+					for i,v in next, DropItemHolder:GetChildren() do
+						if v.Name == "Item" then
+							v:Destroy()
+						end
+                    end						
+					
+					CurrentSelectedText.Text = "..."
+					
+					itemcount = 0
+					framesize = 0
+					DropItemHolder.Size = UDim2.new(0, 385, 0, 0)
+					DropdownFrameMain.Size = UDim2.new(0, 392, 0, 0)
+					DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, 0)
+					Dropdown.Size = UDim2.new(0, 403, 0, 73)
+					DropdownFrameMain.Visible = false
+					DropdownFrameMainOutline.Visible = false
+					ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+				end
+				
+				function DropFunc:Add(textadd)
+					itemcount = itemcount + 1
+
+					if itemcount == 1 then
+						framesize = 29
+					elseif itemcount == 2 then
+						framesize = 58
+					elseif itemcount >= 3 then
+						framesize = 87
+					end
+
+					local Item = Instance.new("TextButton")
+					local ItemCorner = Instance.new("UICorner")
+					local ItemText = Instance.new("TextLabel")
+
+					Item.Name = "Item"
+					Item.Parent = DropItemHolder
+					Item.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
+					Item.Size = UDim2.new(0, 379, 0, 29)
+					Item.AutoButtonColor = false
+					Item.Font = Enum.Font.SourceSans
+					Item.Text = ""
+					Item.TextColor3 = Color3.fromRGB(0, 0, 0)
+					Item.TextSize = 14.000
+					Item.BackgroundTransparency = 1
+
+					ItemCorner.CornerRadius = UDim.new(0, 4)
+					ItemCorner.Name = "ItemCorner"
+					ItemCorner.Parent = Item
+
+					ItemText.Name = "ItemText"
+					ItemText.Parent = Item
+					ItemText.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
+					ItemText.BackgroundTransparency = 1.000
+					ItemText.Position = UDim2.new(0.0211081803, 0, 0, 0)
+					ItemText.Size = UDim2.new(0, 192, 0, 29)
+					ItemText.Font = Enum.Font.Gotham
+					ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
+					ItemText.TextSize = 14.000
+					ItemText.TextXAlignment = Enum.TextXAlignment.Left
+					ItemText.Text = textadd
+
+					Item.MouseEnter:Connect(function()
+						ItemText.TextColor3 = Color3.fromRGB(255,255,255)
+						Item.BackgroundTransparency = 0
+					end)
+
+					Item.MouseLeave:Connect(function()
+						ItemText.TextColor3 = Color3.fromRGB(212, 212, 212)
+						Item.BackgroundTransparency = 1
+					end)
+
+					Item.MouseButton1Click:Connect(function()
+						CurrentSelectedText.Text = textadd
+						pcall(callback, textadd)
+						Dropdown.Size = UDim2.new(0, 403, 0, 73)
+						DropdownFrameMain.Visible = false
+						DropdownFrameMainOutline.Visible = false
+						ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+						DropTog = not DropTog
+					end)
+
+					DropItemHolder.CanvasSize = UDim2.new(0,0,0,DropItemHolderLayout.AbsoluteContentSize.Y)
+
+					DropItemHolder.Size = UDim2.new(0, 385, 0, framesize)
+					DropdownFrameMain.Size = UDim2.new(0, 392, 0, framesize + 6)
+					DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, framesize + 10)
+				end
+				return DropFunc
+			end
 			function ChannelContent:Colorpicker(text, preset, callback)
 				local OldToggleColor = Color3.fromRGB(0, 0, 0)
 				local OldColor = Color3.fromRGB(0, 0, 0)
