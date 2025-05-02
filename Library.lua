@@ -2492,6 +2492,83 @@ function DiscordLib:Window(text)
 				Seperator2.Size = UDim2.new(0, 401, 0, 1)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
+			function ChannelContent:MultiDropdown(text, options, default, callback)
+			    local selected = {}
+			    for _, option in ipairs(default or {}) do
+			        selected[option] = true
+			    end
+			
+			    local Dropdown = Instance.new("TextButton")
+			    Dropdown.Name = "MultiDropdown"
+			    Dropdown.Parent = ChannelHolder
+			    Dropdown.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
+			    Dropdown.BorderSizePixel = 0
+			    Dropdown.Position = UDim2.new(0, 0, 0, 0)
+			    Dropdown.Size = UDim2.new(1, 0, 0, 30)
+			    Dropdown.AutoButtonColor = false
+			    Dropdown.Font = Enum.Font.Gotham
+			    Dropdown.Text = text
+			    Dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+			    Dropdown.TextSize = 14.000
+			    Dropdown.TextXAlignment = Enum.TextXAlignment.Left
+			
+			    local DropdownCorner = Instance.new("UICorner")
+			    DropdownCorner.CornerRadius = UDim.new(0, 4)
+			    DropdownCorner.Name = "DropdownCorner"
+			    DropdownCorner.Parent = Dropdown
+			
+			    local DropdownList = Instance.new("Frame")
+			    DropdownList.Name = "DropdownList"
+			    DropdownList.Parent = Dropdown
+			    DropdownList.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
+			    DropdownList.BorderSizePixel = 0
+			    DropdownList.Position = UDim2.new(0, 0, 1, 0)
+			    DropdownList.Size = UDim2.new(1, 0, 0, #options * 30)
+			    DropdownList.Visible = false
+			    DropdownList.ClipsDescendants = true
+			
+			    local DropdownListCorner = Instance.new("UICorner")
+			    DropdownListCorner.CornerRadius = UDim.new(0, 4)
+			    DropdownListCorner.Name = "DropdownListCorner"
+			    DropdownListCorner.Parent = DropdownList
+			
+			    local UIListLayout = Instance.new("UIListLayout")
+			    UIListLayout.Parent = DropdownList
+			    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			
+			    for _, option in ipairs(options) do
+			        local OptionButton = Instance.new("TextButton")
+			        OptionButton.Name = option
+			        OptionButton.Parent = DropdownList
+			        OptionButton.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
+			        OptionButton.BorderSizePixel = 0
+			        OptionButton.Size = UDim2.new(1, 0, 0, 30)
+			        OptionButton.AutoButtonColor = false
+			        OptionButton.Font = Enum.Font.Gotham
+			        OptionButton.Text = option
+			        OptionButton.TextColor3 = selected[option] and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(255, 255, 255)
+			        OptionButton.TextSize = 14.000
+			        OptionButton.TextXAlignment = Enum.TextXAlignment.Left
+			
+			        OptionButton.MouseButton1Click:Connect(function()
+			            selected[option] = not selected[option]
+			            OptionButton.TextColor3 = selected[option] and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(255, 255, 255)
+			            if callback then
+			                local selectedOptions = {}
+			                for opt, isSelected in pairs(selected) do
+			                    if isSelected then
+			                        table.insert(selectedOptions, opt)
+			                    end
+			                end
+			                callback(selectedOptions)
+			            end
+			        end)
+			    end
+			
+			    Dropdown.MouseButton1Click:Connect(function()
+			        DropdownList.Visible = not DropdownList.Visible
+			    end)
+			end			
 			function ChannelContent:Dropdown(text, list, callback)
 				local DropFunc = {}
 				local itemcount = 0
