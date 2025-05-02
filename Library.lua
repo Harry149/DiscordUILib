@@ -2493,82 +2493,97 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
 			function ChannelContent:MultiDropdown(text, options, default, callback)
-			    local selected = {}
-			    for _, option in ipairs(default or {}) do
-			        selected[option] = true
-			    end
+				local selected = {}
+				for _, def in ipairs(default or {}) do
+					selected[def] = true
+				end
 			
-			    local Dropdown = Instance.new("TextButton")
-			    Dropdown.Name = "MultiDropdown"
-			    Dropdown.Parent = ChannelHolder
-			    Dropdown.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
-			    Dropdown.BorderSizePixel = 0
-			    Dropdown.Position = UDim2.new(0, 0, 0, 0)
-			    Dropdown.Size = UDim2.new(1, 0, 0, 30)
-			    Dropdown.AutoButtonColor = false
-			    Dropdown.Font = Enum.Font.Gotham
-			    Dropdown.Text = text
-			    Dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
-			    Dropdown.TextSize = 14.000
-			    Dropdown.TextXAlignment = Enum.TextXAlignment.Left
+				local Dropdown = Instance.new("Frame")
+				Dropdown.Name = "Dropdown"
+				Dropdown.Parent = ServerContent
+				Dropdown.BackgroundColor3 = Color3.fromRGB(54, 57, 63)
+				Dropdown.BorderSizePixel = 0
+				Dropdown.Size = UDim2.new(1, 0, 0, 35)
 			
-			    local DropdownCorner = Instance.new("UICorner")
-			    DropdownCorner.CornerRadius = UDim.new(0, 4)
-			    DropdownCorner.Name = "DropdownCorner"
-			    DropdownCorner.Parent = Dropdown
+				local DropdownCorner = Instance.new("UICorner", Dropdown)
+				DropdownCorner.CornerRadius = UDim.new(0, 6)
 			
-			    local DropdownList = Instance.new("Frame")
-			    DropdownList.Name = "DropdownList"
-			    DropdownList.Parent = Dropdown
-			    DropdownList.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
-			    DropdownList.BorderSizePixel = 0
-			    DropdownList.Position = UDim2.new(0, 0, 1, 0)
-			    DropdownList.Size = UDim2.new(1, 0, 0, #options * 30)
-			    DropdownList.Visible = false
-			    DropdownList.ClipsDescendants = true
+				local Title = Instance.new("TextLabel")
+				Title.Name = "Title"
+				Title.Parent = Dropdown
+				Title.BackgroundTransparency = 1
+				Title.Position = UDim2.new(0, 10, 0, 0)
+				Title.Size = UDim2.new(1, -20, 1, 0)
+				Title.Font = Enum.Font.Gotham
+				Title.Text = text
+				Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Title.TextSize = 14
+				Title.TextXAlignment = Enum.TextXAlignment.Left
 			
-			    local DropdownListCorner = Instance.new("UICorner")
-			    DropdownListCorner.CornerRadius = UDim.new(0, 4)
-			    DropdownListCorner.Name = "DropdownListCorner"
-			    DropdownListCorner.Parent = DropdownList
+				local Arrow = Instance.new("ImageLabel")
+				Arrow.Name = "Arrow"
+				Arrow.Parent = Dropdown
+				Arrow.AnchorPoint = Vector2.new(1, 0.5)
+				Arrow.Position = UDim2.new(1, -10, 0.5, 0)
+				Arrow.Size = UDim2.new(0, 12, 0, 12)
+				Arrow.Image = "rbxassetid://6034818372"
+				Arrow.BackgroundTransparency = 1
 			
-			    local UIListLayout = Instance.new("UIListLayout")
-			    UIListLayout.Parent = DropdownList
-			    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+				local DropFrame = Instance.new("Frame")
+				DropFrame.Name = "DropFrame"
+				DropFrame.Parent = Dropdown
+				DropFrame.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
+				DropFrame.Position = UDim2.new(0, 0, 1, 0)
+				DropFrame.Size = UDim2.new(1, 0, 0, #options * 30)
+				DropFrame.Visible = false
+				DropFrame.ClipsDescendants = true
 			
-			    for _, option in ipairs(options) do
-			        local OptionButton = Instance.new("TextButton")
-			        OptionButton.Name = option
-			        OptionButton.Parent = DropdownList
-			        OptionButton.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
-			        OptionButton.BorderSizePixel = 0
-			        OptionButton.Size = UDim2.new(1, 0, 0, 30)
-			        OptionButton.AutoButtonColor = false
-			        OptionButton.Font = Enum.Font.Gotham
-			        OptionButton.Text = option
-			        OptionButton.TextColor3 = selected[option] and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(255, 255, 255)
-			        OptionButton.TextSize = 14.000
-			        OptionButton.TextXAlignment = Enum.TextXAlignment.Left
+				local DropCorner = Instance.new("UICorner", DropFrame)
+				DropCorner.CornerRadius = UDim.new(0, 6)
 			
-			        OptionButton.MouseButton1Click:Connect(function()
-			            selected[option] = not selected[option]
-			            OptionButton.TextColor3 = selected[option] and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(255, 255, 255)
-			            if callback then
-			                local selectedOptions = {}
-			                for opt, isSelected in pairs(selected) do
-			                    if isSelected then
-			                        table.insert(selectedOptions, opt)
-			                    end
-			                end
-			                callback(selectedOptions)
-			            end
-			        end)
-			    end
+				local List = Instance.new("UIListLayout", DropFrame)
+				List.SortOrder = Enum.SortOrder.LayoutOrder
 			
-			    Dropdown.MouseButton1Click:Connect(function()
-			        DropdownList.Visible = not DropdownList.Visible
-			    end)
-			end			
+				local function UpdateCallback()
+					local current = {}
+					for key, val in pairs(selected) do
+						if val then
+							table.insert(current, key)
+						end
+					end
+					if callback then
+						callback(current)
+					end
+				end
+			
+				for _, option in ipairs(options) do
+					local Button = Instance.new("TextButton")
+					Button.Parent = DropFrame
+					Button.BackgroundColor3 = Color3.fromRGB(47, 49, 54)
+					Button.BorderSizePixel = 0
+					Button.Size = UDim2.new(1, 0, 0, 30)
+					Button.AutoButtonColor = false
+					Button.Font = Enum.Font.Gotham
+					Button.Text = (selected[option] and "✔ " or "") .. option
+					Button.TextColor3 = selected[option] and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(255, 255, 255)
+					Button.TextSize = 13
+			
+					Button.MouseButton1Click:Connect(function()
+						selected[option] = not selected[option]
+						Button.Text = (selected[option] and "✔ " or "") .. option
+						Button.TextColor3 = selected[option] and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(255, 255, 255)
+						UpdateCallback()
+					end)
+				end
+			
+				Dropdown.InputBegan:Connect(function(input)
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						DropFrame.Visible = not DropFrame.Visible
+						Arrow.Rotation = DropFrame.Visible and 180 or 0
+					end
+				end)
+			end
+			
 			function ChannelContent:Dropdown(text, list, callback)
 				local DropFunc = {}
 				local itemcount = 0
