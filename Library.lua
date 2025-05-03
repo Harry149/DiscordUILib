@@ -2169,7 +2169,7 @@ function DiscordLib:Window(text)
 				local ButtonCorner = Instance.new("UICorner")
 
 				if options and options.Description then
-					createTooltip(toggle, options.Description)
+					createTooltip(Button, options.Description)
 				end
 
 				Button.Name = "Button"
@@ -2224,7 +2224,7 @@ function DiscordLib:Window(text)
 				local Icon = Instance.new("ImageLabel")
 
 				if options and options.Description then
-					createTooltip(toggle, options.Description)
+					createTooltip(Toggle, options.Description)
 				end
 
 				Toggle.Name = "Toggle"
@@ -2357,7 +2357,7 @@ function DiscordLib:Window(text)
 				local ValueLabel = Instance.new("TextLabel")
 
 				if options and options.Description then
-					createTooltip(toggle, options.Description)
+					createTooltip(Slider, options.Description)
 				end
 				
 				Slider.Name = "Slider"
@@ -2542,7 +2542,7 @@ function DiscordLib:Window(text)
 				Seperator2.Size = UDim2.new(0, 401, 0, 1)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
-			function ChannelContent:MultiDropdown(text, list, callback,options)
+			function ChannelContent:MultiDropdown(text, list, callback)
 				local DropFunc = {}
 				local itemcount = 0
 				local framesize = 0
@@ -2556,11 +2556,7 @@ function DiscordLib:Window(text)
 				local DropdownFrameCorner = Instance.new("UICorner")
 				local CurrentSelectedText = Instance.new("TextLabel")
 				local ArrowImg = Instance.new("ImageLabel")
-				local DropdownFrameBtn = Instance.new("TextButton")
-
-				if options and options.Description then
-					createTooltip(toggle, options.Description)
-				end				
+				local DropdownFrameBtn = Instance.new("TextButton")			
 			
 				Dropdown.Name = "Dropdown"
 				Dropdown.Parent = ChannelHolder
@@ -2750,7 +2746,7 @@ function DiscordLib:Window(text)
 				    return t
 				end)(), ", ") or "..."
 			end				
-			function ChannelContent:Dropdown(text, list, callback,options)
+			function ChannelContent:Dropdown(text, list, callback)
 				local DropFunc = {}
 				local lastSelectedItem = nil
 				local itemcount = 0
@@ -2765,10 +2761,6 @@ function DiscordLib:Window(text)
 				local CurrentSelectedText = Instance.new("TextLabel")
 				local ArrowImg = Instance.new("ImageLabel")
 				local DropdownFrameBtn = Instance.new("TextButton")
-
-				if options and options.Description then
-					createTooltip(toggle, options.Description)
-				end
 				
 				Dropdown.Name = "Dropdown"
 				Dropdown.Parent = ChannelHolder
