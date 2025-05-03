@@ -25,42 +25,34 @@ local function SaveInfo()
 	writefile("discordlibinfo.txt", HttpService:JSONEncode(userinfo));
 end
 
-local function createTooltip(target, text)
+local function createTooltipInline(target, text)
 	local tooltip = Instance.new("TextLabel")
 	tooltip.Text = text
-	tooltip.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Match existing UI theme
-	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
-	tooltip.BorderSizePixel = 0
+	tooltip.Size = UDim2.new(1, 0, 0, 0)
+	tooltip.AutomaticSize = Enum.AutomaticSize.Y
+	tooltip.BackgroundTransparency = 1
+	tooltip.TextColor3 = Color3.fromRGB(180, 180, 180)
 	tooltip.Font = Enum.Font.Gotham
-	tooltip.TextSize = 14
+	tooltip.TextSize = 12
 	tooltip.TextWrapped = true
-	tooltip.BackgroundTransparency = 0.1
-	tooltip.AutomaticSize = Enum.AutomaticSize.XY
-	tooltip.AnchorPoint = Vector2.new(0, 1)
-	tooltip.Position = UDim2.new(0, 0, 0, 0)
-	tooltip.ZIndex = 1000
+	tooltip.TextXAlignment = Enum.TextXAlignment.Left
 	tooltip.Visible = false
-	tooltip.Name = "Tooltip"
-	tooltip.Parent = game:GetService("CoreGui"):FindFirstChild("RobloxGui") or target:FindFirstAncestorOfClass("ScreenGui") or target
+	tooltip.Name = "InlineTooltip"
+	tooltip.ZIndex = target.ZIndex or 1
 
-	local function updatePos()
-		local mouse = game:GetService("UserInputService"):GetMouseLocation()
-		tooltip.Position = UDim2.new(0, mouse.X + 12, 0, mouse.Y - 12)
-	end
+	-- Insert below the target, assuming target's parent has UIListLayout
+	tooltip.Parent = target.Parent
 
+	-- Move it directly after the element
+	tooltip.LayoutOrder = (target.LayoutOrder or 0) + 1
+
+	-- Show/hide on hover
 	target.MouseEnter:Connect(function()
 		tooltip.Visible = true
-		updatePos()
 	end)
 
 	target.MouseLeave:Connect(function()
 		tooltip.Visible = false
-	end)
-
-	game:GetService("RunService").RenderStepped:Connect(function()
-		if tooltip.Visible then
-			updatePos()
-		end
 	end)
 end
 
