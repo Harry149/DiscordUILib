@@ -25,6 +25,45 @@ local function SaveInfo()
 	writefile("discordlibinfo.txt", HttpService:JSONEncode(userinfo));
 end
 
+local function createTooltip(element, text)
+    local tooltip = Instance.new("TextLabel")
+    tooltip.Name = "Tooltip"
+    tooltip.BackgroundColor3 = Color3.fromRGB(32, 34, 37)
+    tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
+    tooltip.BackgroundTransparency = 0
+    tooltip.Font = Enum.Font.Gotham
+    tooltip.TextSize = 12
+    tooltip.Text = text
+    tooltip.TextWrapped = true
+    tooltip.ZIndex = 10
+    tooltip.Visible = false
+    tooltip.AutomaticSize = Enum.AutomaticSize.XY
+    tooltip.ClipsDescendants = true
+    tooltip.AnchorPoint = Vector2.new(0.5, 1)
+    tooltip.Position = UDim2.new(0.5, 0, 0, -6)
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent = tooltip
+
+    local padding = Instance.new("UIPadding")
+    padding.PaddingTop = UDim.new(0, 6)
+    padding.PaddingBottom = UDim.new(0, 6)
+    padding.PaddingLeft = UDim.new(0, 8)
+    padding.PaddingRight = UDim.new(0, 8)
+    padding.Parent = tooltip
+
+    tooltip.Parent = element
+
+    element.MouseEnter:Connect(function()
+        tooltip.Visible = true
+    end)
+
+    element.MouseLeave:Connect(function()
+        tooltip.Visible = false
+    end)
+end
+
 local function MakeDraggable(topbarobject, object)
 	local Dragging = nil
 	local DragInput = nil
@@ -2125,9 +2164,13 @@ function DiscordLib:Window(text)
 				ChannelHolder.Visible = true
 			end
 			local ChannelContent = {}
-			function ChannelContent:Button(text,callback)
+			function ChannelContent:Button(text,callback,options)
 				local Button = Instance.new("TextButton")
 				local ButtonCorner = Instance.new("UICorner")
+
+				if options and options.Description then
+					createTooltip(toggle, options.Description)
+				end
 
 				Button.Name = "Button"
 				Button.Parent = ChannelHolder
@@ -2170,7 +2213,7 @@ function DiscordLib:Window(text)
 				end)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
-			function ChannelContent:Toggle(text,default,callback)
+			function ChannelContent:Toggle(text,default,callback,options)
 				local toggled = false
 				local Toggle = Instance.new("TextButton")
 				local ToggleTitle = Instance.new("TextLabel")
@@ -2179,6 +2222,10 @@ function DiscordLib:Window(text)
 				local ToggleFrameCircle = Instance.new("Frame")
 				local ToggleFrameCircleCorner = Instance.new("UICorner")
 				local Icon = Instance.new("ImageLabel")
+
+				if options and options.Description then
+					createTooltip(toggle, options.Description)
+				end
 
 				Toggle.Name = "Toggle"
 				Toggle.Parent = ChannelHolder
@@ -2292,7 +2339,7 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
 			
-			function ChannelContent:Slider(text, min, max, start, callback)
+			function ChannelContent:Slider(text, min, max, start, callback,options)
 				local SliderFunc = {}
 				local dragging = false
 				local Slider = Instance.new("TextButton")
@@ -2309,7 +2356,10 @@ function DiscordLib:Window(text)
 				local GlowBubble = Instance.new("ImageLabel")
 				local ValueLabel = Instance.new("TextLabel")
 
-
+				if options and options.Description then
+					createTooltip(toggle, options.Description)
+				end
+				
 				Slider.Name = "Slider"
 				Slider.Parent = ChannelHolder
 				Slider.BackgroundColor3 = Color3.fromRGB(54, 57, 63)
@@ -2492,7 +2542,7 @@ function DiscordLib:Window(text)
 				Seperator2.Size = UDim2.new(0, 401, 0, 1)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
-			function ChannelContent:MultiDropdown(text, list, callback)
+			function ChannelContent:MultiDropdown(text, list, callback,options)
 				local DropFunc = {}
 				local itemcount = 0
 				local framesize = 0
@@ -2507,6 +2557,10 @@ function DiscordLib:Window(text)
 				local CurrentSelectedText = Instance.new("TextLabel")
 				local ArrowImg = Instance.new("ImageLabel")
 				local DropdownFrameBtn = Instance.new("TextButton")
+
+				if options and options.Description then
+					createTooltip(toggle, options.Description)
+				end				
 			
 				Dropdown.Name = "Dropdown"
 				Dropdown.Parent = ChannelHolder
@@ -2696,7 +2750,7 @@ function DiscordLib:Window(text)
 				    return t
 				end)(), ", ") or "..."
 			end				
-			function ChannelContent:Dropdown(text, list, callback)
+			function ChannelContent:Dropdown(text, list, callback,options)
 				local DropFunc = {}
 				local lastSelectedItem = nil
 				local itemcount = 0
@@ -2712,6 +2766,10 @@ function DiscordLib:Window(text)
 				local ArrowImg = Instance.new("ImageLabel")
 				local DropdownFrameBtn = Instance.new("TextButton")
 
+				if options and options.Description then
+					createTooltip(toggle, options.Description)
+				end
+				
 				Dropdown.Name = "Dropdown"
 				Dropdown.Parent = ChannelHolder
 				Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
