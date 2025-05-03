@@ -37,16 +37,17 @@ local function createTooltip(parent, text)
 	tooltip.Font = Enum.Font.Gotham
 	tooltip.TextSize = 13
 	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
-	tooltip.BackgroundColor3 = Color3.fromRGB(43, 45, 49) -- Exact color from your UI
+	tooltip.BackgroundColor3 = Color3.fromRGB(43, 45, 49)
 	tooltip.BackgroundTransparency = 0
 	tooltip.AutomaticSize = Enum.AutomaticSize.XY
 	tooltip.AnchorPoint = Vector2.new(0, 0)
 	tooltip.Position = UDim2.new(0, 0, 0, 0)
-	tooltip.ZIndex = 9999
+	tooltip.ZIndex = 1000
 	tooltip.Visible = false
 	tooltip.BorderSizePixel = 0
 	tooltip.ClipsDescendants = false
 	tooltip.Parent = screenGui
+	tooltip.Active = false
 
 	local padding = Instance.new("UIPadding")
 	padding.PaddingTop = UDim.new(0, 4)
@@ -59,23 +60,21 @@ local function createTooltip(parent, text)
 	corner.CornerRadius = UDim.new(0, 6)
 	corner.Parent = tooltip
 
-	local moveConn
+	local followMouse
+
 	parent.MouseEnter:Connect(function()
 		tooltip.Visible = true
-		moveConn = UIS.InputChanged:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseMovement then
-				local mouseX = input.Position.X
-				local mouseY = input.Position.Y
-				tooltip.Position = UDim2.fromOffset(mouseX + 15, mouseY + 5) -- offset to side of cursor
-			end
+		followMouse = RunService.RenderStepped:Connect(function()
+			local mousePos = UIS:GetMouseLocation()
+			tooltip.Position = UDim2.new(0, mousePos.X + 12, 0, mousePos.Y + 8)
 		end)
 	end)
 
 	parent.MouseLeave:Connect(function()
 		tooltip.Visible = false
-		if moveConn then
-			moveConn:Disconnect()
-			moveConn = nil
+		if followMouse then
+			followMouse:Disconnect()
+			followMouse = nil
 		end
 	end)
 end
