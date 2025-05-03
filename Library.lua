@@ -24,61 +24,6 @@ local function SaveInfo()
 	userinfo["tag"] = tag
 	writefile("discordlibinfo.txt", HttpService:JSONEncode(userinfo));
 end
-
-local UIS = game:GetService("UserInputService")
-
-local function createTooltip(parent, text)
-	local screenGui = parent:FindFirstAncestorWhichIsA("ScreenGui")
-	if not screenGui then return end
-
-	local tooltip = Instance.new("TextLabel")
-	tooltip.Name = "Tooltip"
-	tooltip.Text = text
-	tooltip.Font = Enum.Font.Gotham
-	tooltip.TextSize = 13
-	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
-	tooltip.BackgroundColor3 = Color3.fromRGB(43, 45, 49)
-	tooltip.BackgroundTransparency = 0
-	tooltip.AutomaticSize = Enum.AutomaticSize.XY
-	tooltip.AnchorPoint = Vector2.new(0, 0)
-	tooltip.Position = UDim2.new(0, 0, 0, 0)
-	tooltip.ZIndex = 1000
-	tooltip.Visible = false
-	tooltip.BorderSizePixel = 0
-	tooltip.ClipsDescendants = false
-	tooltip.Parent = screenGui
-	tooltip.Active = false
-
-	local padding = Instance.new("UIPadding")
-	padding.PaddingTop = UDim.new(0, 4)
-	padding.PaddingBottom = UDim.new(0, 4)
-	padding.PaddingLeft = UDim.new(0, 6)
-	padding.PaddingRight = UDim.new(0, 6)
-	padding.Parent = tooltip
-
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, 6)
-	corner.Parent = tooltip
-
-	local followMouse
-
-	parent.MouseEnter:Connect(function()
-		tooltip.Visible = true
-		followMouse = RunService.RenderStepped:Connect(function()
-			local mousePos = UIS:GetMouseLocation()
-			tooltip.Position = UDim2.new(0, mousePos.X + 12, 0, mousePos.Y + 8)
-		end)
-	end)
-
-	parent.MouseLeave:Connect(function()
-		tooltip.Visible = false
-		if followMouse then
-			followMouse:Disconnect()
-			followMouse = nil
-		end
-	end)
-end
-
 	
 local function MakeDraggable(topbarobject, object)
 	local Dragging = nil
@@ -2229,7 +2174,7 @@ function DiscordLib:Window(text)
 				end)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
-			function ChannelContent:Toggle(text,default,callback,options)
+			function ChannelContent:Toggle(text,default,callback)
 				local toggled = false
 				local Toggle = Instance.new("TextButton")
 				local ToggleTitle = Instance.new("TextLabel")
@@ -2238,10 +2183,6 @@ function DiscordLib:Window(text)
 				local ToggleFrameCircle = Instance.new("Frame")
 				local ToggleFrameCircleCorner = Instance.new("UICorner")
 				local Icon = Instance.new("ImageLabel")
-
-				if options and options.Description then
-					createTooltip(Toggle, options.Description)
-				end
 
 				Toggle.Name = "Toggle"
 				Toggle.Parent = ChannelHolder
@@ -2355,7 +2296,7 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
 			
-			function ChannelContent:Slider(text, min, max, start, callback,options)
+			function ChannelContent:Slider(text, min, max, start, callback)
 				local SliderFunc = {}
 				local dragging = false
 				local Slider = Instance.new("TextButton")
@@ -2371,10 +2312,6 @@ function DiscordLib:Window(text)
 				local SquareBubble = Instance.new("Frame")
 				local GlowBubble = Instance.new("ImageLabel")
 				local ValueLabel = Instance.new("TextLabel")
-
-				if options and options.Description then
-					createTooltip(Slider, options.Description)
-				end
 				
 				Slider.Name = "Slider"
 				Slider.Parent = ChannelHolder
