@@ -25,56 +25,61 @@ local function SaveInfo()
 	writefile("discordlibinfo.txt", HttpService:JSONEncode(userinfo));
 end
 
+local UIS = game:GetService("UserInputService")
+
 local function createTooltip(parent, text)
+	local screenGui = parent:FindFirstAncestorWhichIsA("ScreenGui")
+	if not screenGui then return end
+
 	local tooltip = Instance.new("TextLabel")
 	tooltip.Name = "Tooltip"
 	tooltip.Text = text
-	tooltip.BackgroundColor3 = Color3.fromRGB(24, 25, 26) -- Match lib panel color
-	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
 	tooltip.Font = Enum.Font.Gotham
 	tooltip.TextSize = 13
-	tooltip.TextWrapped = true
+	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
+	tooltip.BackgroundColor3 = Color3.fromRGB(41, 43, 47) -- Match DiscordLib buttons
 	tooltip.BackgroundTransparency = 0
-	tooltip.AnchorPoint = Vector2.new(0, 1)
 	tooltip.AutomaticSize = Enum.AutomaticSize.XY
+	tooltip.AnchorPoint = Vector2.new(1, 0)
+	tooltip.Position = UDim2.new(0, 0, 0, 0)
 	tooltip.ZIndex = 999
 	tooltip.Visible = false
+	tooltip.BorderSizePixel = 0
+	tooltip.ClipsDescendants = false
+	tooltip.Parent = screenGui -- make sure it's global and on top
 
-	-- Corners to match UI
-	local corner = Instance.new("UICorner", tooltip)
-	corner.CornerRadius = UDim.new(0, 6)
-
-	-- Padding to match spacing
 	local padding = Instance.new("UIPadding", tooltip)
 	padding.PaddingTop = UDim.new(0, 4)
 	padding.PaddingBottom = UDim.new(0, 4)
 	padding.PaddingLeft = UDim.new(0, 6)
 	padding.PaddingRight = UDim.new(0, 6)
 
-	tooltip.Parent = parent
+	local corner = Instance.new("UICorner", tooltip)
+	corner.CornerRadius = UDim.new(0, 6)
 
-	-- Reposition on mouse move (relative to parent container)
 	local moveConn
 	parent.MouseEnter:Connect(function()
 		tooltip.Visible = true
 		moveConn = UIS.InputChanged:Connect(function(input)
 			if input.UserInputType == Enum.UserInputType.MouseMovement then
-				local localPos = Vector2.new(input.Position.X, input.Position.Y)
-				local screenGui = parent:FindFirstAncestorWhichIsA("ScreenGui")
-				if screenGui then
-					local guiPos = screenGui.AbsolutePosition or Vector2.new()
-					local rel = localPos - guiPos + Vector2.new(16, -10)
-					tooltip.Position = UDim2.fromOffset(rel.X, rel.Y)
-				end
+				local mouseX = input.Position.X
+				local mouseY = input.Position.Y
+				local offsetX = -10 -- to the left of cursor
+				local offsetY = 5
+				tooltip.Position = UDim2.fromOffset(mouseX + offsetX, mouseY + offsetY)
 			end
 		end)
 	end)
 
 	parent.MouseLeave:Connect(function()
 		tooltip.Visible = false
-		if moveConn then moveConn:Disconnect() end
+		if moveConn then
+			moveConn:Disconnect()
+			moveConn = nil
+		end
 	end)
 end
+
 	
 local function MakeDraggable(topbarobject, object)
 	local Dragging = nil
