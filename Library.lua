@@ -25,43 +25,43 @@ local function SaveInfo()
 	writefile("discordlibinfo.txt", HttpService:JSONEncode(userinfo));
 end
 
-local function createTooltip(element, text)
-    local tooltip = Instance.new("TextLabel")
-    tooltip.Name = "Tooltip"
-    tooltip.BackgroundColor3 = Color3.fromRGB(32, 34, 37)
-    tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
-    tooltip.BackgroundTransparency = 0
-    tooltip.Font = Enum.Font.Gotham
-    tooltip.TextSize = 12
-    tooltip.Text = text
-    tooltip.TextWrapped = true
-    tooltip.ZIndex = 10
-    tooltip.Visible = false
-    tooltip.AutomaticSize = Enum.AutomaticSize.XY
-    tooltip.ClipsDescendants = true
-    tooltip.AnchorPoint = Vector2.new(0.5, 1)
-    tooltip.Position = UDim2.new(0.5, 0, 0, -6)
+local function createTooltip(target, text)
+	local tooltip = Instance.new("TextLabel")
+	tooltip.Text = text
+	tooltip.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Match existing UI theme
+	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
+	tooltip.BorderSizePixel = 0
+	tooltip.Font = Enum.Font.Gotham
+	tooltip.TextSize = 14
+	tooltip.TextWrapped = true
+	tooltip.BackgroundTransparency = 0.1
+	tooltip.AutomaticSize = Enum.AutomaticSize.XY
+	tooltip.AnchorPoint = Vector2.new(0, 1)
+	tooltip.Position = UDim2.new(0, 0, 0, 0)
+	tooltip.ZIndex = 1000
+	tooltip.Visible = false
+	tooltip.Name = "Tooltip"
+	tooltip.Parent = game:GetService("CoreGui"):FindFirstChild("RobloxGui") or target:FindFirstAncestorOfClass("ScreenGui") or target
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 6)
-    corner.Parent = tooltip
+	local function updatePos()
+		local mouse = game:GetService("UserInputService"):GetMouseLocation()
+		tooltip.Position = UDim2.new(0, mouse.X + 12, 0, mouse.Y - 12)
+	end
 
-    local padding = Instance.new("UIPadding")
-    padding.PaddingTop = UDim.new(0, 6)
-    padding.PaddingBottom = UDim.new(0, 6)
-    padding.PaddingLeft = UDim.new(0, 8)
-    padding.PaddingRight = UDim.new(0, 8)
-    padding.Parent = tooltip
+	target.MouseEnter:Connect(function()
+		tooltip.Visible = true
+		updatePos()
+	end)
 
-    tooltip.Parent = element
+	target.MouseLeave:Connect(function()
+		tooltip.Visible = false
+	end)
 
-    element.MouseEnter:Connect(function()
-        tooltip.Visible = true
-    end)
-
-    element.MouseLeave:Connect(function()
-        tooltip.Visible = false
-    end)
+	game:GetService("RunService").RenderStepped:Connect(function()
+		if tooltip.Visible then
+			updatePos()
+		end
+	end)
 end
 
 local function MakeDraggable(topbarobject, object)
