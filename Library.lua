@@ -37,25 +37,27 @@ local function createTooltip(parent, text)
 	tooltip.Font = Enum.Font.Gotham
 	tooltip.TextSize = 13
 	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
-	tooltip.BackgroundColor3 = Color3.fromRGB(41, 43, 47) -- Match DiscordLib buttons
+	tooltip.BackgroundColor3 = Color3.fromRGB(43, 45, 49) -- Exact color from your UI
 	tooltip.BackgroundTransparency = 0
 	tooltip.AutomaticSize = Enum.AutomaticSize.XY
-	tooltip.AnchorPoint = Vector2.new(1, 0)
+	tooltip.AnchorPoint = Vector2.new(0, 0)
 	tooltip.Position = UDim2.new(0, 0, 0, 0)
-	tooltip.ZIndex = 999
+	tooltip.ZIndex = 9999
 	tooltip.Visible = false
 	tooltip.BorderSizePixel = 0
 	tooltip.ClipsDescendants = false
-	tooltip.Parent = screenGui -- make sure it's global and on top
+	tooltip.Parent = screenGui
 
-	local padding = Instance.new("UIPadding", tooltip)
+	local padding = Instance.new("UIPadding")
 	padding.PaddingTop = UDim.new(0, 4)
 	padding.PaddingBottom = UDim.new(0, 4)
 	padding.PaddingLeft = UDim.new(0, 6)
 	padding.PaddingRight = UDim.new(0, 6)
+	padding.Parent = tooltip
 
-	local corner = Instance.new("UICorner", tooltip)
+	local corner = Instance.new("UICorner")
 	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = tooltip
 
 	local moveConn
 	parent.MouseEnter:Connect(function()
@@ -64,9 +66,7 @@ local function createTooltip(parent, text)
 			if input.UserInputType == Enum.UserInputType.MouseMovement then
 				local mouseX = input.Position.X
 				local mouseY = input.Position.Y
-				local offsetX = -10 -- to the left of cursor
-				local offsetY = 5
-				tooltip.Position = UDim2.fromOffset(mouseX + offsetX, mouseY + offsetY)
+				tooltip.Position = UDim2.fromOffset(mouseX + 15, mouseY + 5) -- offset to side of cursor
 			end
 		end)
 	end)
