@@ -26,36 +26,53 @@ local function SaveInfo()
 end
 
 local function createTooltip(parent, text)
-    local tooltip = Instance.new("TextLabel")
-    tooltip.Text = text
-    tooltip.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    tooltip.TextColor3 = Color3.new(1, 1, 1)
-    tooltip.BackgroundTransparency = 0.1
-    tooltip.TextWrapped = true
-    tooltip.Font = Enum.Font.Gotham
-    tooltip.TextSize = 14
-    tooltip.AutomaticSize = Enum.AutomaticSize.XY
-    tooltip.ZIndex = 99
-    tooltip.Visible = false
-    tooltip.AnchorPoint = Vector2.new(0, 1)
-    tooltip.Position = UDim2.fromOffset(0, 0)
-    tooltip.BorderSizePixel = 0
-    tooltip.Parent = parent
+	local tooltip = Instance.new("TextLabel")
+	tooltip.Name = "Tooltip"
+	tooltip.Text = text
+	tooltip.BackgroundColor3 = Color3.fromRGB(52, 55, 61) -- Matching UI
+	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
+	tooltip.BackgroundTransparency = 0
+	tooltip.TextWrapped = true
+	tooltip.Font = Enum.Font.Gotham
+	tooltip.TextSize = 14
+	tooltip.AutomaticSize = Enum.AutomaticSize.XY
+	tooltip.ZIndex = 100
+	tooltip.Visible = false
+	tooltip.AnchorPoint = Vector2.new(0, 0)
+	tooltip.BorderSizePixel = 0
+	tooltip.ClipsDescendants = false
+	tooltip.Position = UDim2.fromOffset(0, 0)
 
-    local connMove
-    parent.MouseEnter:Connect(function()
-        tooltip.Visible = true
-        connMove = UserInputService.InputChanged:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseMovement then
-                tooltip.Position = UDim2.fromOffset(input.Position.X + 8, input.Position.Y)
-            end
-        end)
-    end)
+	-- Corner and padding for matching style
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = tooltip
 
-    parent.MouseLeave:Connect(function()
-        tooltip.Visible = false
-        if connMove then connMove:Disconnect() end
-    end)
+	local padding = Instance.new("UIPadding")
+	padding.PaddingLeft = UDim.new(0, 6)
+	padding.PaddingRight = UDim.new(0, 6)
+	padding.PaddingTop = UDim.new(0, 4)
+	padding.PaddingBottom = UDim.new(0, 4)
+	padding.Parent = tooltip
+
+	tooltip.Parent = parent
+
+	local connMove
+	parent.MouseEnter:Connect(function()
+		tooltip.Visible = true
+		connMove = UIS.InputChanged:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseMovement then
+				local relX = input.Position.X - parent.AbsolutePosition.X + 10
+				local relY = input.Position.Y - parent.AbsolutePosition.Y + 10
+				tooltip.Position = UDim2.fromOffset(relX, relY)
+			end
+		end)
+	end)
+
+	parent.MouseLeave:Connect(function()
+		tooltip.Visible = false
+		if connMove then connMove:Disconnect() end
+	end)
 end
 	
 local function MakeDraggable(topbarobject, object)
