@@ -29,49 +29,50 @@ local function createTooltip(parent, text)
 	local tooltip = Instance.new("TextLabel")
 	tooltip.Name = "Tooltip"
 	tooltip.Text = text
-	tooltip.BackgroundColor3 = Color3.fromRGB(52, 55, 61) -- Matching UI
+	tooltip.BackgroundColor3 = Color3.fromRGB(24, 25, 26) -- Match lib panel color
 	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
-	tooltip.BackgroundTransparency = 0
-	tooltip.TextWrapped = true
 	tooltip.Font = Enum.Font.Gotham
-	tooltip.TextSize = 14
+	tooltip.TextSize = 13
+	tooltip.TextWrapped = true
+	tooltip.BackgroundTransparency = 0
+	tooltip.AnchorPoint = Vector2.new(0, 1)
 	tooltip.AutomaticSize = Enum.AutomaticSize.XY
-	tooltip.ZIndex = 100
+	tooltip.ZIndex = 999
 	tooltip.Visible = false
-	tooltip.AnchorPoint = Vector2.new(0, 0)
-	tooltip.BorderSizePixel = 0
-	tooltip.ClipsDescendants = false
-	tooltip.Position = UDim2.fromOffset(0, 0)
 
-	-- Corner and padding for matching style
-	local corner = Instance.new("UICorner")
+	-- Corners to match UI
+	local corner = Instance.new("UICorner", tooltip)
 	corner.CornerRadius = UDim.new(0, 6)
-	corner.Parent = tooltip
 
-	local padding = Instance.new("UIPadding")
-	padding.PaddingLeft = UDim.new(0, 6)
-	padding.PaddingRight = UDim.new(0, 6)
+	-- Padding to match spacing
+	local padding = Instance.new("UIPadding", tooltip)
 	padding.PaddingTop = UDim.new(0, 4)
 	padding.PaddingBottom = UDim.new(0, 4)
-	padding.Parent = tooltip
+	padding.PaddingLeft = UDim.new(0, 6)
+	padding.PaddingRight = UDim.new(0, 6)
 
 	tooltip.Parent = parent
 
-	local connMove
+	-- Reposition on mouse move (relative to parent container)
+	local moveConn
 	parent.MouseEnter:Connect(function()
 		tooltip.Visible = true
-		connMove = UIS.InputChanged:Connect(function(input)
+		moveConn = UIS.InputChanged:Connect(function(input)
 			if input.UserInputType == Enum.UserInputType.MouseMovement then
-				local relX = input.Position.X - parent.AbsolutePosition.X + 10
-				local relY = input.Position.Y - parent.AbsolutePosition.Y + 10
-				tooltip.Position = UDim2.fromOffset(relX, relY)
+				local localPos = Vector2.new(input.Position.X, input.Position.Y)
+				local screenGui = parent:FindFirstAncestorWhichIsA("ScreenGui")
+				if screenGui then
+					local guiPos = screenGui.AbsolutePosition or Vector2.new()
+					local rel = localPos - guiPos + Vector2.new(16, -10)
+					tooltip.Position = UDim2.fromOffset(rel.X, rel.Y)
+				end
 			end
 		end)
 	end)
 
 	parent.MouseLeave:Connect(function()
 		tooltip.Visible = false
-		if connMove then connMove:Disconnect() end
+		if moveConn then moveConn:Disconnect() end
 	end)
 end
 	
