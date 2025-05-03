@@ -25,37 +25,39 @@ local function SaveInfo()
 	writefile("discordlibinfo.txt", HttpService:JSONEncode(userinfo));
 end
 
-local function createTooltipInline(target, text)
-	local tooltip = Instance.new("TextLabel")
-	tooltip.Text = text
-	tooltip.Size = UDim2.new(1, 0, 0, 0)
-	tooltip.AutomaticSize = Enum.AutomaticSize.Y
-	tooltip.BackgroundTransparency = 1
-	tooltip.TextColor3 = Color3.fromRGB(180, 180, 180)
-	tooltip.Font = Enum.Font.Gotham
-	tooltip.TextSize = 12
-	tooltip.TextWrapped = true
-	tooltip.TextXAlignment = Enum.TextXAlignment.Left
-	tooltip.Visible = false
-	tooltip.Name = "InlineTooltip"
-	tooltip.ZIndex = target.ZIndex or 1
+local function createTooltip(parent, text)
+    local tooltip = Instance.new("TextLabel")
+    tooltip.Text = text
+    tooltip.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    tooltip.TextColor3 = Color3.new(1, 1, 1)
+    tooltip.BackgroundTransparency = 0.1
+    tooltip.TextWrapped = true
+    tooltip.Font = Enum.Font.Gotham
+    tooltip.TextSize = 14
+    tooltip.AutomaticSize = Enum.AutomaticSize.XY
+    tooltip.ZIndex = 99
+    tooltip.Visible = false
+    tooltip.AnchorPoint = Vector2.new(0, 1)
+    tooltip.Position = UDim2.fromOffset(0, 0)
+    tooltip.BorderSizePixel = 0
+    tooltip.Parent = parent
 
-	-- Insert below the target, assuming target's parent has UIListLayout
-	tooltip.Parent = target.Parent
+    local connMove
+    parent.MouseEnter:Connect(function()
+        tooltip.Visible = true
+        connMove = UserInputService.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement then
+                tooltip.Position = UDim2.fromOffset(input.Position.X + 8, input.Position.Y)
+            end
+        end)
+    end)
 
-	-- Move it directly after the element
-	tooltip.LayoutOrder = (target.LayoutOrder or 0) + 1
-
-	-- Show/hide on hover
-	target.MouseEnter:Connect(function()
-		tooltip.Visible = true
-	end)
-
-	target.MouseLeave:Connect(function()
-		tooltip.Visible = false
-	end)
+    parent.MouseLeave:Connect(function()
+        tooltip.Visible = false
+        if connMove then connMove:Disconnect() end
+    end)
 end
-
+	
 local function MakeDraggable(topbarobject, object)
 	local Dragging = nil
 	local DragInput = nil
